@@ -19,9 +19,6 @@ function homePageListeners() {
     });
 }
 //call the function so it works when the page is loaded
-//if statement required to allow for testing. in a real browser module does === undifiened
-if (typeof module === 'undefined') {
-    homePageListeners();
-}
+homePageListeners();
 
-module.exports = { homePageListeners }
+module.exports = { homePageListeners };
