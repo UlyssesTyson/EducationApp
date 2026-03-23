@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS answer;
 DROP TABLE IF EXISTS question;
 DROP TABLE IF EXISTS account;
+DROP TABLE IF EXISTS leaderboard;
 
 -- Question Table
 CREATE TABLE question (
