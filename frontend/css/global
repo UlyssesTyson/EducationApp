@@ -1,0 +1,7 @@
+:root {
+  --bg-colour: #F0FAF4; 
+  --light-colour: #ADDCB5;
+  --light-outline: #80B689;
+  --dark-colour: #2D6A4F;
+  --dark-outline: #1B4332;
+}
