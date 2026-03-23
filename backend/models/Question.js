@@ -11,6 +11,50 @@ class Question {
         this.answers = answers || [];
     }
 
+    static async getAll() {
+    const response = await db.query("SELECT * FROM question");
+    if (response.rows.length === 0) {
+      throw new Error("No questions available.")
+    }
+    return response.rows.map(q => new Question(q));
+    }
+
+    static async getQuestionByQN(num) {
+    try {
+        const result = await db.query(
+        `SELECT * FROM question WHERE question_number = $1`,
+        [num]
+        );
+
+        if (result.rows.length === 0) {
+        throw new Error('This question does not exist');
+        }
+
+        return new Question(result.rows[0]);
+
+    } catch (err) {
+        throw err;
+    }
+    }
+
+    static async getQuestionByCategory(cat) {
+    try {
+        const result = await db.query(
+        `SELECT * FROM question WHERE category = $1`,
+        [cat]
+        );
+
+        if (result.rows.length === 0) {
+        throw new Error('No questions found for this category');
+        }
+
+        return result.rows.map(q => new Question(q));
+
+    } catch (err) {
+        throw err;
+    }
+    }
+
     static async getByCategoryWithAnswers(category) {
         const result = await db.query(`
             SELECT 

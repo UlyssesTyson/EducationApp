@@ -1,11 +1,20 @@
 const { Router } = require('express');
-const hisotryController = require('../controllers/histories')
+const questionController = require('../controllers/question')
+const answerController = require('../controllers/answer')
+const leaderboardController = require('../controllers/leaderboard')
+
 const accountController = require('../controllers/user');
 
 const historyRouter = Router();
+const questionRouter = Router();
+const answerRouter = Router();
+const leaderboardRouter = Router();
 const authRouter = Router();
 
-historyRouter.get("/", historyController.index);
+questionRouter.get("/", questionController.index);
+questionRouter.get("/home/:QN", questionController.show);
+
+historyRouter.get("/:questionNumber", historyController.index);
 historyRouter.get("/home", historyController.show);
 historyRouter.get("/home/:name", historyController.show);
 
