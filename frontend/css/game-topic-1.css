@@ -1,0 +1,57 @@
+@import "./global.css";
+
+body {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    
+}
+
+
+.sect-heading {
+    background-color: #265d45;
+    border-radius: 20px;
+    padding: 0.5%;
+    margin: 20px;
+
+}
+
+
+.gametitle {
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.intro-content {
+    text-align: center;
+    background-color: #ADDCB5;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 70px;
+    margin-top: 150px;
+    font-size: xx-large;
+    border-radius: 20px;
+    border:  solid var(--light-outline)
+}
+
+
+.enterq {
+    background-color: #1B4332;
+    color: white;
+    font-size: larger;
+    padding: 30px;
+    border-radius: 10px;
+    float: right;
+    margin: 70px;
+
+
+}
+
+
+
+
