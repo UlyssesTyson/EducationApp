@@ -2,6 +2,7 @@ const { Pool } = require('pg');
 const fs = require('fs');
 require('dotenv').config();
 
+
 // Load the SQL reset file
 const resetSQL = fs.readFileSync(__dirname + '/reset.sql').toString();
 

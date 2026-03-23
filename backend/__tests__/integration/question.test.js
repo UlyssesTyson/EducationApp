@@ -1,8 +1,9 @@
 const request = require('supertest')
-//const app = require('../../app')
+const app = require('../../app')
 const { resetTestDB } = require('./config')
+const port = process.env.PORT
 
-describe('questions API Endpoints', () => {
+describe('Questions API Endpoints', () => {
   let api
 
   beforeEach(async () => {
@@ -10,32 +11,81 @@ describe('questions API Endpoints', () => {
   })
 
   beforeAll(() => {
-    api = app.listen(4000, () => {
-      console.log('Test server running on port 3000')
+    api = app.listen(port, () => {
+      console.log(`Test server running on port ${port}`)
     })
   })
 
   afterAll((done) => {
-    console.log('Gracefully closing server')
+    console.log('Closing server')
     api.close(done)
   })
 
-  describe('GET /', () => {
-    it('responds to GET / with a message and a description', async () => {
-      const response = await request(api).get('/')
-  
-      expect(response.statusCode).toBe(200)
-      expect(response.body.message).toBe('welcome')
-      expect(response.body.description).toBe('GOAT API')
-    })
+describe('Question Table SQL commands', () => {
+
+  test('should return all questions', async () => {
+    const result = await db.query('SELECT * FROM question');
+
+    expect(result.rows.length).toBe(15);
   });
 
-  describe('GET /goats', () => {
-    it('should return all goats with a status code 200', async () => {
-      const response = await request(api).get('/goats');
+  test('should return only WW2 questions', async () => {
+    const result = await db.query(
+      "SELECT * FROM question WHERE category = 'WW2'"
+    );
 
-      expect(response.status).toBe(200);
-      expect(response.body.data).toBeInstanceOf(Array);
-      expect(response.body.data.length).toBeGreaterThan(0);
-    });
-  });})
+    expect(result.rows.length).toBe(5);
+  });
+
+  test('should return correct question text', async () => {
+    let result = await db.query(
+      "SELECT * FROM question WHERE question_number = 1"
+    );
+
+    expect(result.rows[0].question_text)
+      .toBe('In which year did World War II begin?');
+
+  });
+
+  test('should insert a new question', async () => {
+    const result = await db.query(`
+      INSERT INTO question (question_number, question_text, category)
+      VALUES (16, 'Test question?', 'Test')
+      RETURNING *
+    `);
+
+    expect(result.rows[0].question_text).toBe('Test question?');
+  });
+
+});
+
+})
+
+describe('GET /', () => {
+  test('should return API info', async () => {
+    const response = await request(app).get('/');
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe('welcome');
+    expect(response.body.description).toBe('History Quiz API');
+  });
+});
+
+describe('GET /histories', () => {
+  test('should return all questions', async () => {
+    const response = await request(app).get('/histories');
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.length).toBe(15);
+  });
+
+  test('should return correct structure', async () => {
+    const response = await request(app).get('/histories');
+
+    const item = response.body[0];
+
+    expect(item).toHaveProperty('id');
+    expect(item).toHaveProperty('question_text');
+    expect(item).toHaveProperty('category');
+  });
+});

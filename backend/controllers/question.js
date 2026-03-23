@@ -1,16 +1,5 @@
 const Question = require('../models/Question');
 
-/*
-const index = async (req, res) => {
-  try {
-    const questionData = await Question.getByCategoryWithAnswers()
-    res.status(200).send({ data: questionData })
-  } catch (error) {
-    res.status(500).send({ error: error.message })
-  }
-}
-*/
-
 const index = async (req, res) => {
   try {
     const questionData = await Question.getAll()
@@ -22,9 +11,9 @@ const index = async (req, res) => {
 
 const show = async (req, res) => {
   try {
-    const goatId = parseInt(req.params.id)
-    const selectedGoat = await Question.getQuestionByQN(goatId)
-    res.status(200).send({ data: selectedGoat })
+    const QN = parseInt(req.params.QN)
+    const selectedQuestion = await Question.getQuestionByQN(QN)
+    res.status(200).send({ data: selectedQuestion })
   } catch (error) {
     res.status(404).send({ error: error.message })
   }
