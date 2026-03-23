@@ -34,7 +34,7 @@ describe("Auth flow", () => {
     delete window.location; 
     window.location = { assign: assignMock };
 
-    require("../../../frontend/js/index.js");
+    require("../../js/index.js");
   });
 
   afterEach(() => {
@@ -137,7 +137,7 @@ describe("Auth flow", () => {
     delete window.location;
     window.location = { assign: assignMock };
 
-    require("../../../frontend/js/index.js");
+    require("../../js/index.js");
 
     const form = document.getElementById("signupForm");
 
