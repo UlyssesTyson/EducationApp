@@ -1,76 +1,77 @@
-document.getElementById("loginForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const btn = document.querySelector("#loginForm .auth-btn");
-    btn.textContent = "Signing in...";
-    btn.disabled = true;
-
-    const form = new FormData(e.target);
-
-    const options = {
-        method: "POST",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            username: form.get("username"),
-            password: form.get("password")
-        })
-    };
-
-    const response = await fetch("http://localhost:3000/users/login", options);
-    const data = await response.json();
-
-    if (response.status === 200) {
-        localStorage.setItem("token", data.token);
-        window.location.assign("home-page.html");
-    } else {
-        alert(data.error);
-        btn.textContent = "Log In";
-        btn.disabled = false;
+const API_BASE = 'http://localhost:3000'; // Update to your API URL
+ 
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+ 
+function showError(formId, message) {
+    clearError(formId);
+    const error = document.createElement('p');
+    error.className = 'form-error';
+    error.textContent = message;
+    document.getElementById(formId).prepend(error);
+}
+ 
+function clearError(formId) {
+    document.querySelector(`#${formId} .form-error`)?.remove();
+}
+ 
+// ─── Sign Up ──────────────────────────────────────────────────────────────────
+ 
+async function handleSignup(event) {
+    event.preventDefault();
+    clearError('signupForm');
+ 
+    const username  = document.getElementById('firstName').value.trim();
+    const email     = document.getElementById('signupEmail').value.trim();
+    const password  = document.getElementById('signupPassword').value;
+ 
+    try {
+        const response = await fetch(`${API_BASE}/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, email, password }),
+        });
+ 
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || 'Sign up failed.');
+ 
+        // Automatically log in after registering
+        await loginUser(username, password);
+ 
+    } catch (err) {
+        showError('signupForm', err.message);
     }
-});
-
-document.getElementById("signupForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const btn = document.querySelector("#signupForm .auth-btn");
-    btn.textContent = "Creating account...";
-    btn.disabled = true;
-
-    const form = new FormData(e.target);
-
-    const password = form.get("password");
-    const confirmPassword = form.get("confirmPassword");
-
-    if (password !== confirmPassword) {
-        alert("Passwords do not match.");
-        btn.textContent = "Sign Up";
-        btn.disabled = false;
-        return;
+}
+ 
+// ─── Log In ───────────────────────────────────────────────────────────────────
+ 
+async function handleLogin(event) {
+    event.preventDefault();
+    clearError('loginForm');
+ 
+    const username = document.getElementById('loginUsername').value.trim();
+    const password = document.getElementById('loginPassword').value;
+ 
+    try {
+        await loginUser(username, password);
+    } catch (err) {
+        showError('loginForm', err.message);
     }
+}
+ 
+async function loginUser(username, password) {
+    const response = await fetch(`${API_BASE}/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+    });
+ 
+    const result = await response.json();
+    if (!response.ok || !result.success) throw new Error(result.error || 'Login failed.');
+ 
+    localStorage.setItem('token', result.token);
+    localStorage.setItem('username', username);
+ 
+    window.location.href = 'home-page.html';
+}
 
-    const options = {
-        method: "POST",
-       
-        body: JSON.stringify({
-            username: form.get("username"),
-            password
-        })
-    };
-
-    const response = await fetch("http://localhost:3000/users/register", options);
-    const data = await response.json();
-
-    if (response.status === 201) {
-        alert("Account created! Please log in.");
-        document.getElementById("signupForm").reset();
-        btn.textContent = "Sign Up";
-        btn.disabled = false;
-    } else {
-        alert(data.error);
-        btn.textContent = "Sign Up";
-        btn.disabled = false;
-    }
-});
+module.exports = {showError, clearError, handleSignup, handleLogin, loginUser};
