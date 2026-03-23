@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest --watchAll --coverage --verbose",
     "start": "node index.js",
+    "setup-db": "node ./backend/db/setup.js",
     "dev": "nodemon index.js"
   },
   "keywords": [],
