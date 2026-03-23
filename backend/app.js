@@ -17,11 +17,11 @@ app.get('/', (req, res) => {
     message: "welcome",
     description: "History Quiz API",
     endpoints: [
-      "GET    /                  200",
-      "GET    /histories         200",
-      "GET    /histories/:id     200",
-      "POST   /histories         201",
-      "GET    /quiz/:category    200"
+      "GET    /                200",
+      "GET    /home            200",
+      "GET    /home/:name      200",
+      "POST   /register        201",
+      "POST   /login           200"
     ]
   });
 });
