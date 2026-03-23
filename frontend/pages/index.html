@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+<body>
+
+    <header>
+        <h1>Questry</h1>
+    </header>
+
+    <div class="forms-wrapper">
+
+<!-- Signup Card -->
+        <div class="auth-card">
+            <div class="auth-form-header">
+                <h2>Sign up:</h2>
+            </div>
+            <form id="signupForm" class="auth-form" onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label for="firstName">Username</label>
+                    <input type="text" id="firstName" placeholder="User123" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Parent Email</label>
+                    <input type="email" id="signupEmail" placeholder="parent@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password*</label>
+                    <input type="password" id="signupPassword" placeholder="••••••••" required minlength="6">
+                </div>
+                <button type="submit" class="auth-btn">Sign Up</button>
+            </form>
+        </div>
+
+        <!-- Login Card -->
+        <div class="auth-card">
+            <div class="auth-form-header">
+                <h2>Log In:</h2>
+            </div>
+            <form id="loginForm" class="auth-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" placeholder="User123" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required>
+                    <a href="#" class="forgot-password">forgot password?</a>
+                </div>
+                <button type="submit" class="auth-btn">Log In</button>
+            </form>
+        </div>
+
+        
+
+    </div>
+
+</body>
+</html>
