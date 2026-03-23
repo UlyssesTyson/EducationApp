@@ -1,0 +1,51 @@
+@import "./global.css";
+
+body {
+    background-color: var(--bg-colour);
+}
+
+#heading-text {
+    display: flex;
+    margin: auto;
+    margin-bottom: 2rem;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--dark-colour);
+    border: solid 3px var(--dark-outline);
+    border-radius: 14px;
+    width: 90%;
+}
+
+#page-sections {
+    display: flex;
+    width: 90%;
+    margin: auto;
+    justify-content: space-evenly;
+    border: 3px solid red;
+}
+
+#all-story-options {
+    background-color: var(--light-colour);
+    width: 50%;
+    margin-right: 1.5rem;
+}
+
+.story-option {
+    display: flex;
+    border: solid 3px blue
+}
+
+.story-img {
+    width: 10%;
+}
+
+.story-img img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+#leaderboard {
+    background-color: var(--light-colour);
+    width: 50%;
+}
