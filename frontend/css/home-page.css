@@ -1,58 +1,74 @@
 @import "./global.css";
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     background-color: var(--bg-colour);
 }
 
 #heading-text {
-    display: flex;
-    margin: auto;
-    margin-bottom: 2rem;
-    align-items: center;
-    justify-content: center;
-    color: var(--bg-colour);
     background-color: var(--dark-colour);
-    border: solid 3px var(--dark-outline);
-    border-radius: 14px;
-    width: 90%;
+    border-bottom: 3px solid var(--dark-outline);
+    padding: 18px 28px;
+    color: var(--bg-colour);
+    font-size: 36px;
+    font-weight: 700;
+
 }
 
 #page-sections {
     display: flex;
     width: 90%;
-    margin: auto;
-    justify-content: space-evenly;
+    margin: 0 auto;
+    padding-top: 40px;
+    gap: 2%;
 }
 
 #all-game-options {
     background-color: var(--light-colour);
     width: 50%;
-    margin-right: 1.5rem;
-    border: solid 3px var(--light-outline);
+    border: 3px solid var(--light-outline);
     border-radius: 14px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
 }
 
 #page-sections h2 {
     text-align: center;
-    font-size: 2rem;
+    font-size: 32px;
+    font-weight: 700;
     color: var(--dark-outline);
+    margin-bottom: 8px;
 }
 
 .game-option {
     display: flex;
+    align-items: center;
+    gap: 12px;
     border-radius: 14px;
-    margin: 2rem 1rem;
-    background-color: lightgray;
+    padding: 16px;
+    margin-bottom: 16px;
+    background-color: var(--bg-colour);
+    border: 3px solid var(--light-outline);
     color: var(--dark-colour);
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 }
 
 .game-option:hover {
     background-color: var(--dark-colour);
+    border-color: var(--dark-outline);
     color: var(--bg-colour);
 }
 
 .game-img {
     width: 10%;
+    flex-shrink: 0;
 }
 
 .game-img img {
@@ -63,23 +79,77 @@ body {
 }
 
 .game-info {
-    margin-left: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .game-title {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 24px;
+    font-weight: 600;
 }
 
 .game-description {
-    margin: 0;
+    font-size: 16px;
 }
 
 #leaderboard {
     background-color: var(--light-colour);
     width: 50%;
-    border: solid 3px var(--light-outline);
+    border: 3px solid var(--light-outline);
     border-radius: 14px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+}
+#heading-text {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
+#user-menu {
+    position: relative;
+}
+
+#user-btn {
+    background: none;
+    border: 2px solid var(--bg-colour);
+    border-radius: 50%;
+    color: var(--bg-colour);
+    font-size: 22px;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+}
+
+#user-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 56px;
+    background-color: var(--light-colour);
+    border: 2px solid var(--light-outline);
+    border-radius: 10px;
+    overflow: hidden;
+    min-width: 160px;
+    z-index: 10;
+}
+
+#user-dropdown a {
+    display: block;
+    padding: 12px 16px;
+    font-size: 16px;
+    color: var(--dark-outline);
+    text-decoration: none;
+}
+
+#user-dropdown a:hover {
+    background-color: var(--dark-colour);
+    color: var(--bg-colour);
+}
+
+#user-menu.open #user-dropdown {
+    display: block;
+}
