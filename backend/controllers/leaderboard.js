@@ -1,6 +1,6 @@
-const Leaderboard = require("../models/Leaderboard");
+const Leaderboard = require("../models/leaderboard");
 
-// GET /leaderboard
+// GET get all leaderboard entries
 async function index(req, res) {
   try {
     const leaderboard = await Leaderboard.getAll();
@@ -10,7 +10,7 @@ async function index(req, res) {
   }
 }
 
-// GET /leaderboard/:id
+// GET  get a single leaderboard entry
 async function show(req, res) {
   try {
     const id = parseInt(req.params.id);
@@ -21,7 +21,7 @@ async function show(req, res) {
   }
 }
 
-// POST /leaderboard
+// POST create a new leaderboard entry
 async function create(req, res) {
   try {
     const { username, score } = req.body;
@@ -37,8 +37,38 @@ async function create(req, res) {
   }
 }
 
+// PATCH update leaderboard entry
+async function update(req, res) {
+  try {
+    const id = parseInt(req.params.id);
+    const { username, score } = req.body;
+
+    if (!username && score === undefined) {
+      return res.status(400).json({ error: "Provide a username or score to update" });
+    }
+
+    // First, get the existing entry
+    const entry = await Leaderboard.getOneById(id);
+
+    // Merge updates
+    const newUsername = username || entry.username;
+    const newScore = score !== undefined ? score : entry.score;
+
+    // Update in DB
+    const updated = await db.query(
+      "UPDATE leaderboard SET username = $1, score = $2 WHERE id = $3 RETURNING *",
+      [newUsername, newScore, id]
+    );
+
+    res.status(200).json(updated.rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
 module.exports = {
   index,
   show,
-  create
+  create,
+  update
 };
