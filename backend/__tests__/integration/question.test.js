@@ -21,6 +21,8 @@ describe('Questions API Endpoints', () => {
     api.close(done)
   })
 
+//testing directly onto database to test if it's set up correctly
+
 describe('Question Table SQL commands', () => {
 
   test('should return all questions', async () => {
@@ -56,10 +58,10 @@ describe('Question Table SQL commands', () => {
 
     expect(result.rows[0].question_text).toBe('Test question?');
   });
-
 });
-
 })
+
+//testing end to end connections
 
 describe('GET /', () => {
   test('should return API info', async () => {
@@ -71,21 +73,47 @@ describe('GET /', () => {
   });
 });
 
-describe('GET /histories', () => {
-  test('should return all questions', async () => {
-    const response = await request(app).get('/histories');
+describe('GET /questions/home/Tudor_England', () => {
+  test('should return all Tudor England questions and answers', async () => {
+    const response = await request(app).get('/questions/home/Tudor_England');
 
     expect(response.statusCode).toBe(200);
-    expect(response.body.length).toBe(15);
+    expect(response.body.length).toBeGreaterThan(0);
+
   });
 
-  test('should return correct structure', async () => {
-    const response = await request(app).get('/histories');
+  test('should return questions with answers', async () => {
+  const response = await request(app).get('/questions/home/Tudor_England');
 
-    const item = response.body[0];
+  expect(response.statusCode).toBe(200);
+  expect(response.body.length).toBeGreaterThan(0);
 
-    expect(item).toHaveProperty('id');
-    expect(item).toHaveProperty('question_text');
-    expect(item).toHaveProperty('category');
-  });
+  const question = response.body[0];
+
+  expect(question).toHaveProperty('id');
+  expect(question).toHaveProperty('question_text');
+  expect(question).toHaveProperty('answers');
+  expect(question).toHaveProperty('question_number');
+  expect(question).toHaveProperty('category');
+  expect(question).toHaveProperty('points');
+  
+  expect(question.category).toBe('Tudor England');
+
+  expect(Array.isArray(question.answers)).toBe(true);
+
+  const answer1 = question.answers[0];
+
+  expect(answer1).toHaveProperty('option_text');
+  expect(answer1).toHaveProperty('correct');
+  expect(answer1.option_text).toBe('Henry VIII');
+  expect(answer1.correct).toBe(true);
+
+  const answer2 = question.answers[0];
+
+  expect(answer2).toHaveProperty('option_text');
+  expect(answer2).toHaveProperty('correct');
+  expect(answer2.option_text).toBe('Henry VII');
+  expect(answer2.correct).toBe(false);
+});
+
 });
