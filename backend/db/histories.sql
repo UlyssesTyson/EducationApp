@@ -50,11 +50,11 @@ INSERT INTO question (question_number, question_text, category) VALUES
 (5, 'In which year did World War II end?', 'WW2'),
 
 -- Tudor England
-(6, 'Which king had six wives during Tudor England?', 'Tudor England'),
-(7, 'How many wives did Henry VIII have?', 'Tudor England'),
-(8, 'Who was Henry VIII''s first wife?', 'Tudor England'),
-(9, 'Which wife of Henry VIII was executed?', 'Tudor England'),
-(10, 'What church did Henry VIII establish?', 'Tudor England'),
+(6, 'Henry VIII had a habit of divorcing his wives. Which powerful institution refused to allow the divorce to his first wife Catherine of Aragon?', 'Tudor England'),
+(7, 'As Henry VIII queen, you would live in the royal palace. Which of these was Henry VIII favourite and most grand palace?', 'Tudor England'),
+(8, 'You learnt quickly that Henry VIII had a terrible temper and decided if you want to keep your head, its best to stay on his good side. How many of his previous wives were executed on his orders?', 'Tudor England'),
+(9, 'During a previous marriage, Henry VIII made himself the Supreme Head of a new church. To keep on his good side you became a member of this new church. What was this church called?', 'Tudor England'),
+(10, 'Henry VIII was broke (so much for marrying rich eh?). To clear his debts he closed down monasteries across England and took their wealth. What is this event known as?', 'Tudor England'),
 
 -- Ancient Egypt
 (11, 'Which river was essential to Ancient Egypt?', 'Ancient Egypt'),
@@ -102,38 +102,33 @@ INSERT INTO answer (question_number, option_text, correct) VALUES
 
 -- Tudor England Q6
 INSERT INTO answer (question_number, option_text, correct) VALUES
-(6, 'Henry VIII', TRUE),
-(6, 'Henry VII', FALSE),
-(6, 'Edward VI', FALSE),
-(6, 'James I', FALSE);
+(6, 'The House of Commons', FALSE),
+(6, 'The Catholic Church', TRUE),
+(6, 'The Royal Navy', FALSE);
 
 -- Tudor England Q7
 INSERT INTO answer (question_number, option_text, correct) VALUES
-(7, 'Six', TRUE),
-(7, 'Three', FALSE),
-(7, 'Four', FALSE),
-(7, 'Five', FALSE);
+(7, 'Hampton Court Palace', TRUE),
+(7, 'Buckingham Palace', FALSE),
+(7, 'Windsor Castle', FALSE);
 
 -- Tudor England Q8
 INSERT INTO answer (question_number, option_text, correct) VALUES
-(8, 'Catherine of Aragon', TRUE),
-(8, 'Anne Boleyn', FALSE),
-(8, 'Jane Seymour', FALSE),
-(8, 'Catherine Parr', FALSE);
+(8, '1', FALSE),
+(8, '2', TRUE),
+(8, '3', FALSE);
 
 -- Tudor England Q9
 INSERT INTO answer (question_number, option_text, correct) VALUES
-(9, 'Anne Boleyn', TRUE),
-(9, 'Anne of Cleves', FALSE),
-(9, 'Jane Seymour', FALSE),
-(9, 'Catherine Howard', FALSE);
+(9, 'The Methodist Church', FALSE),
+(9, 'The Lutheran Church', FALSE),
+(9, 'The Church of England', TRUE);
 
 -- Tudor England Q10
 INSERT INTO answer (question_number, option_text, correct) VALUES
-(10, 'Church of England', TRUE),
-(10, 'Catholic Church', FALSE),
-(10, 'Lutheran Church', FALSE),
-(10, 'Orthodox Church', FALSE);
+(10, 'The Great Fire', FALSE),
+(10, 'The Dissolution of the Monasteries', TRUE),
+(10, 'The Black Death', FALSE);
 
 -- Ancient Egypt Q11
 INSERT INTO answer (question_number, option_text, correct) VALUES
