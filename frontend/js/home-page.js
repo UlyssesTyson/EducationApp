@@ -1,6 +1,8 @@
 function homePageListeners() {
     const username = localStorage.getItem('username');
-document.getElementById('welcome-text').textContent = `Welcome back ${username}`;
+    const welcomeText = document.getElementById('welcome-text');
+    if (welcomeText) welcomeText.textContent = `Welcome back ${username}`;
+
     const game1 = document.getElementById("game-1");
     const game2 = document.getElementById("game-2");
     const game3 = document.getElementById("game-3");
@@ -21,14 +23,16 @@ document.getElementById('welcome-text').textContent = `Welcome back ${username}`
 document.addEventListener("DOMContentLoaded", homePageListeners);
 
 const userBtn = document.getElementById('user-btn');
-userBtn.addEventListener('click', () => {
-    document.getElementById('user-menu').classList.toggle('open');
-});
+if (userBtn) {
+    userBtn.addEventListener('click', () => {
+        document.getElementById('user-menu').classList.toggle('open');
+    });
 
-document.addEventListener('click', (e) => {
-    if (!document.getElementById('user-menu').contains(e.target)) {
-        document.getElementById('user-menu').classList.remove('open');
-    }
-});
+    document.addEventListener('click', (e) => {
+        if (!document.getElementById('user-menu').contains(e.target)) {
+            document.getElementById('user-menu').classList.remove('open');
+        }
+    });
+}
 
 module.exports = { homePageListeners };
