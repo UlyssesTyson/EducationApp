@@ -47,20 +47,10 @@ async function update(req, res) {
       return res.status(400).json({ error: "Provide a username or score to update" });
     }
 
-    // First, get the existing entry
-    const entry = await Leaderboard.getOneById(id);
+    // Use the model's static update method
+    const updated = await Leaderboard.update(id, { username, score });
 
-    // Merge updates
-    const newUsername = username || entry.username;
-    const newScore = score !== undefined ? score : entry.score;
-
-    // Update in DB
-    const updated = await db.query(
-      "UPDATE leaderboard SET username = $1, score = $2 WHERE id = $3 RETURNING *",
-      [newUsername, newScore, id]
-    );
-
-    res.status(200).json(updated.rows[0]);
+    res.status(200).json(updated);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
