@@ -8,7 +8,7 @@ const content = document.getElementById("content");
 const API_BASE = "http://localhost:3000";
 
 //get all the questions from the db
-let questions;
+let allQuestions;
 let correctAnswer;
 
 let answer1;
@@ -29,28 +29,28 @@ let answer15;
 
 async function getQuestions() {
     const response = await fetch(`${API_BASE}/questions/home/Tudor England`);
-    questions = await response.json();
+    allQuestions = await response.json();
     //console.log(questions);
 
-    answer1 = questions[0].answers[0];
-    answer2 = questions[0].answers[1];
-    answer3 = questions[0].answers[2];
+    answer1 = allQuestions[0].answers[0];
+    answer2 = allQuestions[0].answers[1];
+    answer3 = allQuestions[0].answers[2];
 
-    answer4 = questions[1].answers[0];
-    answer5 = questions[1].answers[1];
-    answer6 = questions[1].answers[2];
+    answer4 = allQuestions[1].answers[0];
+    answer5 = allQuestions[1].answers[1];
+    answer6 = allQuestions[1].answers[2];
 
-    answer7 = questions[2].answers[0];
-    answer8 = questions[2].answers[1];
-    answer9 = questions[2].answers[2];
+    answer7 = allQuestions[2].answers[0];
+    answer8 = allQuestions[2].answers[1];
+    answer9 = allQuestions[2].answers[2];
 
-    answer10 = questions[3].answers[0];
-    answer11 = questions[3].answers[1];
-    answer12 = questions[3].answers[2];
+    answer10 = allQuestions[3].answers[0];
+    answer11 = allQuestions[3].answers[1];
+    answer12 = allQuestions[3].answers[2];
 
-    answer13 = questions[4].answers[0];
-    answer14 = questions[4].answers[1];
-    answer15 = questions[4].answers[2];
+    answer13 = allQuestions[4].answers[0];
+    answer14 = allQuestions[4].answers[1];
+    answer15 = allQuestions[4].answers[2];
 }
 
 getQuestions();
@@ -76,7 +76,7 @@ function nextQuestion(e) {
     answerOptions.innerHTML = "";
     //question one and answer options
     if (questionNum === 1) {
-        question.innerHTML = questions[0].question_text;
+        question.innerHTML = allQuestions[0].question_text;
         //defining what the correct answer should be
         correctAnswer = answer2.option_text;
         answerOptions.insertAdjacentHTML(
@@ -94,7 +94,7 @@ function nextQuestion(e) {
     } 
     //question two and answer options
     else if (questionNum === 2) {
-        question.innerHTML = questions[1].question_text;
+        question.innerHTML = allQuestions[1].question_text;
         correctAnswer = answer4.option_text;
         answerOptions.insertAdjacentHTML(
             "beforeend",
@@ -111,7 +111,7 @@ function nextQuestion(e) {
     } 
     //question three and answer options
     else if (questionNum === 3) {
-        question.innerHTML = questions[2].question_text;
+        question.innerHTML = allQuestions[2].question_text;
         correctAnswer = answer8.option_text;
         answerOptions.insertAdjacentHTML(
             "beforeend",
@@ -128,7 +128,7 @@ function nextQuestion(e) {
     } 
     //question four and answer options
     else if (questionNum === 4) {
-        question.innerHTML = questions[3].question_text;
+        question.innerHTML = allQuestions[3].question_text;
         correctAnswer = answer12.option_text;
         answerOptions.insertAdjacentHTML(
             "beforeend",
@@ -145,7 +145,7 @@ function nextQuestion(e) {
     } 
     //question five and answer options
     else if (questionNum === 5) {
-        question.innerHTML = questions[4].question_text;
+        question.innerHTML = allQuestions[4].question_text;
         correctAnswer = answer14.option_text;
         answerOptions.insertAdjacentHTML(
             "beforeend",
@@ -206,4 +206,15 @@ function checkAnswer(e) {
             wrongAnswer();
         }
     }
+ 
 }
+   const userBtn = document.getElementById('user-btn');
+userBtn.addEventListener('click', () => {
+    document.getElementById('user-menu').classList.toggle('open');
+});
+
+document.addEventListener('click', (e) => {
+    if (!document.getElementById('user-menu').contains(e.target)) {
+        document.getElementById('user-menu').classList.remove('open');
+    }
+});

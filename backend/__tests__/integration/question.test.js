@@ -1,6 +1,8 @@
-const request = require('supertest');
-const app = require('../../app');
-const { resetTestDB } = require('./config');
+const request = require('supertest')
+const app = require('../../app')
+const db = require('../../db/connect');
+const { resetTestDB } = require('./config')
+const port = process.env.PORT
 
 describe('Questions API Endpoints', () => {
 
@@ -39,18 +41,16 @@ describe('Questions API Endpoints', () => {
 
       const question = response.body[0];
 
-      expect(question).toHaveProperty('id');
-      expect(question).toHaveProperty('question_number');
-      expect(question).toHaveProperty('question_text');
-      expect(question).toHaveProperty('category');
-      expect(question).toHaveProperty('points');
-      expect(question).toHaveProperty('answers');
+describe('GET /questions/home/Tudor England', () => {
+  test('should return all Tudor England questions and answers', async () => {
+    const response = await request(app).get('/questions/home/Tudor England');
 
       expect(question.category).toBe('Tudor_England');
 
       expect(Array.isArray(question.answers)).toBe(true);
 
-      const answer = question.answers[0];
+  test('should return questions with answers', async () => {
+  const response = await request(app).get('/questions/home/Tudor England');
 
       expect(answer).toHaveProperty('id');
       expect(answer).toHaveProperty('option_text');
