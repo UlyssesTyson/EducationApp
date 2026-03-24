@@ -1,4 +1,4 @@
-const Leaderboard = require("../models/leaderboard");
+const Leaderboard = require("../models/Leaderboard");
 
 // GET /leaderboard
 async function index(req, res) {
