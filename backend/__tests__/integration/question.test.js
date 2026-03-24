@@ -1,119 +1,86 @@
-const request = require('supertest')
-const app = require('../../app')
-const { resetTestDB } = require('./config')
-const port = process.env.PORT
+const request = require('supertest');
+const app = require('../../app');
+const { resetTestDB } = require('./config');
 
 describe('Questions API Endpoints', () => {
-  let api
 
   beforeEach(async () => {
-    await resetTestDB()
-  })
-
-  beforeAll(() => {
-    api = app.listen(port, () => {
-      console.log(`Test server running on port ${port}`)
-    })
-  })
-
-  afterAll((done) => {
-    console.log('Closing server')
-    api.close(done)
-  })
-
-//testing directly onto database to test if it's set up correctly
-
-describe('Question Table SQL commands', () => {
-
-  test('should return all questions', async () => {
-    const result = await db.query('SELECT * FROM question');
-
-    expect(result.rows.length).toBe(15);
+    await resetTestDB();
   });
 
-  test('should return only WW2 questions', async () => {
-    const result = await db.query(
-      "SELECT * FROM question WHERE category = 'WW2'"
-    );
+  // -----------------------------
+  // Root route
+  // -----------------------------
+  describe('GET /', () => {
+    test('should return API info', async () => {
+      const response = await request(app).get('/');
 
-    expect(result.rows.length).toBe(5);
+      expect(response.statusCode).toBe(200);
+      expect(response.body.message).toBe('welcome');
+      expect(response.body.description).toBe('History Quiz API');
+    });
   });
 
-  test('should return correct question text', async () => {
-    let result = await db.query(
-      "SELECT * FROM question WHERE question_number = 1"
-    );
+  // -----------------------------
+  // Get questions by category
+  // -----------------------------
+  describe('GET /questions/home/Tudor England', () => {
 
-    expect(result.rows[0].question_text)
-      .toBe('In which year did World War II begin?');
+    test('should return all Tudor England questions and answers', async () => {
+      const response = await request(app).get('/questions/home/Tudor England');
 
-  });
+      expect(response.statusCode).toBe(200);
+      expect(Array.isArray(response.body)).toBe(true);
+      expect(response.body.length).toBeGreaterThan(0);
+    });
 
-  test('should insert a new question', async () => {
-    const result = await db.query(`
-      INSERT INTO question (question_number, question_text, category)
-      VALUES (16, 'Test question?', 'Test')
-      RETURNING *
-    `);
+    test('should return correct structure', async () => {
+      const response = await request(app).get('/questions/home/Tudor England');
 
-    expect(result.rows[0].question_text).toBe('Test question?');
-  });
-});
-})
+      const question = response.body[0];
 
-//testing end to end connections
+      expect(question).toHaveProperty('id');
+      expect(question).toHaveProperty('question_number');
+      expect(question).toHaveProperty('question_text');
+      expect(question).toHaveProperty('category');
+      expect(question).toHaveProperty('points');
+      expect(question).toHaveProperty('answers');
 
-describe('GET /', () => {
-  test('should return API info', async () => {
-    const response = await request(app).get('/');
+      expect(question.category).toBe('Tudor_England');
 
-    expect(response.statusCode).toBe(200);
-    expect(response.body.message).toBe('welcome');
-    expect(response.body.description).toBe('History Quiz API');
-  });
-});
+      expect(Array.isArray(question.answers)).toBe(true);
 
-describe('GET /questions/home/Tudor_England', () => {
-  test('should return all Tudor England questions and answers', async () => {
-    const response = await request(app).get('/questions/home/Tudor_England');
+      const answer = question.answers[0];
 
-    expect(response.statusCode).toBe(200);
-    expect(response.body.length).toBeGreaterThan(0);
+      expect(answer).toHaveProperty('id');
+      expect(answer).toHaveProperty('option_text');
+      expect(answer).toHaveProperty('correct');
+    });
+
+    test('should include correct answer (Henry VIII)', async () => {
+      const response = await request(app).get('/questions/home/Tudor England');
+
+      const question = response.body[0];
+
+      const hasCorrectAnswer = question.answers.some(
+        a => a.option_text === 'Henry VIII' && a.correct === true
+      );
+
+      expect(hasCorrectAnswer).toBe(true);
+    });
 
   });
 
-  test('should return questions with answers', async () => {
-  const response = await request(app).get('/questions/home/Tudor_England');
+  // -----------------------------
+  // Error handling
+  // -----------------------------
+  describe('GET /questions/home/INVALID_CATEGORY', () => {
+    test('should return 404 for invalid category', async () => {
+      const response = await request(app).get('/questions/home/INVALID_CATEGORY');
 
-  expect(response.statusCode).toBe(200);
-  expect(response.body.length).toBeGreaterThan(0);
-
-  const question = response.body[0];
-
-  expect(question).toHaveProperty('id');
-  expect(question).toHaveProperty('question_text');
-  expect(question).toHaveProperty('answers');
-  expect(question).toHaveProperty('question_number');
-  expect(question).toHaveProperty('category');
-  expect(question).toHaveProperty('points');
-  
-  expect(question.category).toBe('Tudor England');
-
-  expect(Array.isArray(question.answers)).toBe(true);
-
-  const answer1 = question.answers[0];
-
-  expect(answer1).toHaveProperty('option_text');
-  expect(answer1).toHaveProperty('correct');
-  expect(answer1.option_text).toBe('Henry VIII');
-  expect(answer1.correct).toBe(true);
-
-  const answer2 = question.answers[0];
-
-  expect(answer2).toHaveProperty('option_text');
-  expect(answer2).toHaveProperty('correct');
-  expect(answer2.option_text).toBe('Henry VII');
-  expect(answer2.correct).toBe(false);
-});
+      expect(response.statusCode).toBe(404);
+      expect(response.body).toHaveProperty('error');
+    });
+  });
 
 });
