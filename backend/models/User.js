@@ -29,7 +29,7 @@ class User {
         const { username, password, isAdmin } = data;
         let response = await db.query("INSERT INTO account (username, password) VALUES ($1, $2) RETURNING username;",
             [username, password]);
-        const newId = response.rows[0].user_id;
+        const newId = response.rows[0].username;
         const newUser = await User.getOneById(newId);
         return newUser;
     }
