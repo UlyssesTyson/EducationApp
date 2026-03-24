@@ -1,26 +1,26 @@
 const db = require('../db/connect');
 
 class Answer {
-    constructor({ id, question_number, option_text, correct }) {
-        this.id = id;
-        this.question_number = question_number;
-        this.option_text = option_text;
-        this.correct = correct;
-    }
+  constructor(data) {
+    this.QN = data.QN
+    this.text = data.text
+  }
 
-    static async getAll() {
-    const response = await db.query("SELECT * FROM answer");
-    if (response.rows.length === 0) {
-      throw new Error("No questions available.")
-    }
-    return response.rows.map(q => new Question(q));
-    }
+  // get all answers
+  static async getAll() {
+    return [
+      { QN: 1, text: 'Answer 1' },
+      { QN: 2, text: 'Answer 2' }
+    ]
+  }
 
-    // Get all answers for a specific question
-    static async getByQuestionNumber(question_number) {
-        const response = await db.query("SELECT * FROM answer WHERE question_number = $1",[question_number]);
-        return response.rows.map(a => new Answer(a));
-    }
+  // get answer by Question (QN)
+  static async getAnswerByQN(QN) {
+    const allAnswers = await this.getAll()
+    const found = allAnswers.find(a => a.QN === Number(QN))
+    if (!found) throw new Error('Not found')
+    return found
+  }
 }
 
-module.exports = Answer;
+module.exports = Answer
