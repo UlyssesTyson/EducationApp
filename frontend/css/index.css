@@ -114,7 +114,32 @@ header h1 {
     background-color: var(--dark-hover);
 }
 .form-success {
-    color: green;
-    font-size: 0.875rem;
-    margin-bottom: 0.5rem;
+    background-color: var(--bg-colour);
+    border: 3px solid #2e7d32;
+    border-radius: 14px;
+    padding: 14px 18px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #2e7d32;
+    animation: fadeOut 3s forwards;
+
 }
+
+.form-error {
+    background-color: var(--bg-colour);
+    border: 3px solid #c62828;
+    border-radius: 14px;
+    padding: 14px 18px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #c62828;
+    animation: fadeOut 3s forwards;
+
+}
+
+.min-length {
+    font-size: 16px;
+    color: var(--dark-outline);
+    padding-left: 10px;
+}
+
