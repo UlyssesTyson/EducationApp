@@ -24,4 +24,4 @@ answerRouter.get("/home/:QN", questionController.show) // placeholder
 authRouter.post("/register", accountController.register); // Sign up route (create new account)
 authRouter.post("/login", accountController.login); // Login route (check username/password)
 
-module.exports = questionRouter, leaderboardRouter, answerRouter, authRouter
+module.exports = {questionRouter, leaderboardRouter, answerRouter, authRouter}
