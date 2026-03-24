@@ -50,11 +50,11 @@ INSERT INTO question (question_number, question_text, category) VALUES
 (5, 'In which year did World War II end?', 'WW2'),
 
 -- Tudor England
-(6, 'Which king had six wives during Tudor England?', 'Tudor England'),
-(7, 'How many wives did Henry VIII have?', 'Tudor England'),
-(8, 'Who was Henry VIII''s first wife?', 'Tudor England'),
-(9, 'Which wife of Henry VIII was executed?', 'Tudor England'),
-(10, 'What church did Henry VIII establish?', 'Tudor England'),
+(6, 'Which king had six wives during Tudor England?', 'Tudor_England'),
+(7, 'How many wives did Henry VIII have?', 'Tudor_EEngland'),
+(8, 'Who was Henry VIII''s first wife?', 'Tudor_EEngland'),
+(9, 'Which wife of Henry VIII was executed?', 'Tudor_EEngland'),
+(10, 'What church did Henry VIII establish?', 'Tudor_EEngland'),
 
 -- Ancient Egypt
 (11, 'Which river was essential to Ancient Egypt?', 'Ancient Egypt'),

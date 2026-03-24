@@ -11,7 +11,7 @@ const index = async (req, res) => {
 
 const show = async (req, res) => {
   try {
-    const category = parseInt(req.params.category)
+    const category = req.params.category
     const selectedQuestion = await Question.getByCategoryWithAnswers(category)
     res.status(200).json(selectedQuestion)
   } catch (error) {
