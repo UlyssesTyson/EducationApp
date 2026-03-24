@@ -4,8 +4,8 @@ const index = async (req, res) => {
   try {
     const questionData = await Answer.getAll()
     res.status(200).json(questionData)
-  } catch (error) {
-    res.status(500).json({ error: error.message })
+  } catch (err) {
+    res.status(500).json({error: err.message})
   }
 }
 
@@ -14,8 +14,8 @@ const show = async (req, res) => {
     const QN = parseInt(req.params.QN)
     const selectedAnswer = await Answer.getAnswerByQN(QN)
     res.status(200).json(selectedAnswer)
-  } catch (error) {
-    res.status(404).json({ error: error.message })
+  } catch (err) {
+    res.status(404).json({error: err.message})
   }
 }
 
