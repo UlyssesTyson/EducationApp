@@ -113,3 +113,8 @@ header h1 {
 .auth-btn:hover {
     background-color: var(--dark-hover);
 }
+.form-success {
+    color: green;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
