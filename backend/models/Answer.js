@@ -8,6 +8,14 @@ class Answer {
         this.correct = correct;
     }
 
+    static async getAll() {
+    const response = await db.query("SELECT * FROM answer");
+    if (response.rows.length === 0) {
+      throw new Error("No questions available.")
+    }
+    return response.rows.map(q => new Question(q));
+    }
+
     // Get all answers for a specific question
     static async getByQuestionNumber(question_number) {
         const response = await db.query("SELECT * FROM answer WHERE question_number = $1",[question_number]);

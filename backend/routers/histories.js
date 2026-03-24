@@ -1,31 +1,27 @@
 const { Router } = require('express');
+
+// All the controllers required
 const questionController = require('../controllers/question')
 const answerController = require('../controllers/answer')
 const leaderboardController = require('../controllers/leaderboard')
-
 const accountController = require('../controllers/user');
 
-const historyRouter = Router();
 const questionRouter = Router();
 const answerRouter = Router();
 const leaderboardRouter = Router();
 const authRouter = Router();
 
-questionRouter.get("/", questionController.index);
-questionRouter.get("/home/:QN", questionController.show);
+leaderboardRouter.get("/home", leaderboardController.index) // this is to show the user the leaderboard info
+leaderboardRouter.patch("/home/:id", leaderboardController.show) // this is to  update the score
+leaderboardRouter.post("/home", leaderboardController.create) // this is to create a new entry into the leaderboard
 
-historyRouter.get("/:questionNumber", historyController.index);
-historyRouter.get("/home", historyController.show);
-historyRouter.get("/home/:name", historyController.show);
+questionRouter.get("/home", questionController.index); // get all questions
+questionRouter.get("/home/:QN", questionController.show); // get questions by question number
 
-// Sign up route (create new account)
-authRouter.post("/register", accountController.register);
-// Login route (check username/password)
-authRouter.post("/login", accountController.login);
+answerRouter.get("/home/:QN", questionController.index) // placeholder
+answerRouter.get("/home/:QN", questionController.show) // placeholder
 
-//// For Future Additions
-// historyRouter.post("/", historyController.create);
-// historyRouter.patch("/:name", historyController.update);
-// historyRouter.delete("/:name", historyController.destroy);
+authRouter.post("/register", accountController.register); // Sign up route (create new account)
+authRouter.post("/login", accountController.login); // Login route (check username/password)
 
-module.exports = countryRouter, authRouter;
+module.exports = questionRouter, leaderboardRouter, answerRouter, authRouter
