@@ -1,21 +1,19 @@
 @import "./global.css";
 
 body {
+    background-image: url("https://www.worldatlas.com/upload/37/a5/e7/shutterstock-587869652-1.jpg");
     background-repeat: no-repeat;
-    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
     background-size: 100%;
-    
 }
-
 
 .sect-heading {
     background-color: #265d45;
     border-radius: 20px;
     padding: 0.5%;
     margin: 20px;
-
 }
-
 
 .gametitle {
     color: white;
@@ -24,47 +22,40 @@ body {
     align-items: center;
 }
 
-
-.quiz-content {
-    background-color: #ADDCB5;
+.content {
+    text-align: center;
+    background-color: #addcb5;
     color: black;
-    display: grid;
     justify-content: center;
+    align-items: center;
     margin: 70px;
+    margin-top: 150px;
     font-size: xx-large;
     border-radius: 20px;
-    border:  solid var(--light-outline);
+    border: solid var(--light-outline);
+}
+
+.enterq {
+    background-color: #1b4332;
+    color: white;
+    font-size: larger;
+    padding: 30px;
+    border-radius: 10px;
+    float: right;
+    margin: 70px;
+}
+
+.returnHome {
+    background-color: #1b4332;
+    color: white;
+    font-size: larger;
+    padding: 15px;
+    border-radius: 10px;
+    display: block;
+    margin: 15px auto;
 }
 
 
-.btn-a {
-background-color: white;
-border: 0px;
-font-size: xx-large;
-width: 500px;
-margin-top: 30px;
-margin-bottom: 30px; 
-border-radius: 10px;
-}
-
-
-.btn-b {
-background-color: white;
-border: 0px;
-font-size: xx-large;
-width: 500px;
-margin-top: 30px;
-margin-bottom: 30px; 
-border-radius: 10px;
-}
-
-
-.btn-c {
-background-color: white;
-border: 0px;
-font-size: xx-large;
-width: 500px;
-margin-top: 30px;
-margin-bottom: 30px; 
-border-radius: 10px;
+.question:hover {
+    background-color: var(--dark-colour);
 }
