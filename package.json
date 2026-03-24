@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --watchAll --coverage --verbose",
-    "start": "node index.js",
-    "setup-db": "node ./backend/db/setup.js",
-    "dev": "nodemon index.js"
+    "start": "node backend/index.js",
+    "setup-db": "node backend/db/setup.js",
+    "dev": "nodemon backend/index.js"
   },
   "keywords": [],
   "author": "",
