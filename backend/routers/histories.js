@@ -16,7 +16,7 @@ leaderboardRouter.patch("/home/:id", leaderboardController.update) // this is to
 leaderboardRouter.post("/home", leaderboardController.create) // this is to create a new entry into the leaderboard
 
 // questionRouter.get("/home", questionController.index); // get all questions
-questionRouter.get("/home/:category", questionController.show); // get questions by question number
+questionRouter.get("/home/:category", questionController.show); // get questions with answers by category
 
 // answerRouter.get("/home/:QN", answerController.index) // placeholder
 // answerRouter.get("/home/:QN", answerController.show) // placeholder

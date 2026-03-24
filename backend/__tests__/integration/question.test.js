@@ -9,6 +9,7 @@ describe('Questions API Endpoints', () => {
   beforeEach(async () => {
     await resetTestDB();
   });
+})
 
   // -----------------------------
   // Root route
@@ -35,19 +36,15 @@ describe('Questions API Endpoints', () => {
       expect(Array.isArray(response.body)).toBe(true);
       expect(response.body.length).toBeGreaterThan(0);
     });
-
-    test('should return correct structure', async () => {
-      const response = await request(app).get('/questions/home/Tudor England');
-
-      const question = response.body[0];
-
+  })
 describe('GET /questions/home/Tudor England', () => {
   test('should return all Tudor England questions and answers', async () => {
     const response = await request(app).get('/questions/home/Tudor England');
 
-      expect(question.category).toBe('Tudor_England');
+      expect(response.category).toBe('Tudor England');
 
-      expect(Array.isArray(question.answers)).toBe(true);
+      expect(Array.isArray(response.answers)).toBe(true);
+  })
 
   test('should return questions with answers', async () => {
   const response = await request(app).get('/questions/home/Tudor England');
@@ -71,9 +68,7 @@ describe('GET /questions/home/Tudor England', () => {
 
   });
 
-  // -----------------------------
-  // Error handling
-  // -----------------------------
+
   describe('GET /questions/home/INVALID_CATEGORY', () => {
     test('should return 404 for invalid category', async () => {
       const response = await request(app).get('/questions/home/INVALID_CATEGORY');
@@ -82,5 +77,3 @@ describe('GET /questions/home/Tudor England', () => {
       expect(response.body).toHaveProperty('error');
     });
   });
-
-});
