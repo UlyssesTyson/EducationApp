@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const logger = require('morgan');
 
-const historyRoutes = require('./routers/histories');
+const { questionRouter, leaderboardRouter, answerRouter, authRouter } = require('./routers/histories');
 
 const app = express();
 
@@ -10,7 +10,10 @@ app.use(express.json());
 if (process.env.NODE_ENV !== "test") app.use(logger('dev'));
 app.use(cors());
 
-app.use('/histories', historyRoutes);
+app.use('/', authRouter);
+app.use('/questions', questionRouter);
+app.use('/leaderboard', leaderboardRouter);
+app.use('/answers', answerRouter);
 
 app.get('/', (req, res) => {
   res.send({
