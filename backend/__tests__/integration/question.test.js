@@ -1,5 +1,6 @@
 const request = require('supertest')
 const app = require('../../app')
+const db = require('../../db/connect');
 const { resetTestDB } = require('./config')
 const port = process.env.PORT
 
@@ -73,9 +74,9 @@ describe('GET /', () => {
   });
 });
 
-describe('GET /questions/home/Tudor_England', () => {
+describe('GET /questions/home/Tudor England', () => {
   test('should return all Tudor England questions and answers', async () => {
-    const response = await request(app).get('/questions/home/Tudor_England');
+    const response = await request(app).get('/questions/home/Tudor England');
 
     expect(response.statusCode).toBe(200);
     expect(response.body.length).toBeGreaterThan(0);
@@ -83,7 +84,7 @@ describe('GET /questions/home/Tudor_England', () => {
   });
 
   test('should return questions with answers', async () => {
-  const response = await request(app).get('/questions/home/Tudor_England');
+  const response = await request(app).get('/questions/home/Tudor England');
 
   expect(response.statusCode).toBe(200);
   expect(response.body.length).toBeGreaterThan(0);
