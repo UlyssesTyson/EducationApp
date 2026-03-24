@@ -19,6 +19,6 @@ function homePageListeners() {
     });
 }
 //call the function so it works when the page is loaded
-homePageListeners();
+document.addEventListener("DOMContentLoaded", homePageListeners);
 
 module.exports = { homePageListeners };
