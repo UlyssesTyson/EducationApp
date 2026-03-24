@@ -54,7 +54,7 @@ INSERT INTO question (question_number, question_text, category) VALUES
 (7, 'How many wives did Henry VIII have?', 'Tudor_EEngland'),
 (8, 'Who was Henry VIII''s first wife?', 'Tudor_EEngland'),
 (9, 'Which wife of Henry VIII was executed?', 'Tudor_EEngland'),
-(10, 'What church did Henry VIII establish?', 'Tudor_EEngland'),
+(10, 'What church did Henry VIII establish?', 'Tudor_England'),
 
 -- Ancient Egypt
 (11, 'Which river was essential to Ancient Egypt?', 'Ancient Egypt'),
@@ -170,5 +170,11 @@ INSERT INTO answer (question_number, option_text, correct) VALUES
 (15, 'Greek', FALSE),
 (15, 'Cuneiform', FALSE);
 
-
+-- test data for leaderboard
+INSERT INTO leaderboard (username, score) VALUES
+('alice', 85),
+('bob', 92),
+('charlie', 78),
+('diana', 95),
+('edward', 88);
 
