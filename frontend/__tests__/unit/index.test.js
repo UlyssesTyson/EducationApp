@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 const {
     showError,
     clearError,
@@ -151,4 +154,3 @@ describe('handleSignup', () => {
             .toBe('Username already taken');
     });
 });
-

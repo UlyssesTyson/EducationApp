@@ -1,6 +1,6 @@
 const API_BASE = 'http://localhost:3000'; // Update to your API URL
  
-// ─── Helpers ─────────────────────────────────────────────────────────────────
+//Helpers
  
 function showError(formId, message) {
     clearError(formId);
@@ -14,21 +14,21 @@ function clearError(formId) {
     document.querySelector(`#${formId} .form-error`)?.remove();
 }
  
-// ─── Sign Up ──────────────────────────────────────────────────────────────────
+// ─── Sign Up ───────────────────────────────────────────────────────────────────
+
  
 async function handleSignup(event) {
     event.preventDefault();
     clearError('signupForm');
  
     const username  = document.getElementById('firstName').value.trim();
-    const email     = document.getElementById('signupEmail').value.trim();
     const password  = document.getElementById('signupPassword').value;
  
     try {
         const response = await fetch(`${API_BASE}/register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, email, password }),
+            body: JSON.stringify({ username, password }),
         });
  
         const result = await response.json();
