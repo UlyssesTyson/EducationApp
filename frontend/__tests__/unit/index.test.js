@@ -122,24 +122,22 @@ describe('handleLogin', () => {
     });
 });
 
-describe('handleSignup', () => {
+    describe('handleSignup', () => {
     const fakeEvent = { preventDefault: jest.fn() };
 
-    test('registers then auto-logs in and redirects', async () => {
-        global.fetch = jest.fn()
-            .mockResolvedValueOnce({
-                ok: true,
-                json: async () => ({ id: 1, username: 'TestUser' }),
-            })
-            .mockResolvedValueOnce({
-                ok: true,
-                json: async () => ({ success: true, token: 'newtoken' }),
-            });
+    test('registers successfully and shows success message', async () => {
+        global.fetch = jest.fn().mockResolvedValue({
+            ok: true,
+            json: async () => ({ id: 1, username: 'TestUser' }),
+        });
 
         await handleSignup(fakeEvent);
 
-        expect(window.location.href).toBe('home-page.html');
-        expect(localStorage.getItem('token')).toBe('newtoken');
+        expect(document.querySelector('#signupForm .form-success').textContent)
+            .toBe('Account created successfully! You can now log in.');
+
+        expect(window.location.href).toBe('');
+        expect(localStorage.getItem('token')).toBeNull();
     });
 
     test('shows an error if registration fails', async () => {
