@@ -206,4 +206,15 @@ function checkAnswer(e) {
             wrongAnswer();
         }
     }
+ 
 }
+   const userBtn = document.getElementById('user-btn');
+userBtn.addEventListener('click', () => {
+    document.getElementById('user-menu').classList.toggle('open');
+});
+
+document.addEventListener('click', (e) => {
+    if (!document.getElementById('user-menu').contains(e.target)) {
+        document.getElementById('user-menu').classList.remove('open');
+    }
+});
