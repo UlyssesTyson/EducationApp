@@ -1,62 +1,70 @@
-const nextBtn = document.getElementById("nextQBtn");
-const questionEl = document.getElementById("question");
-const answerOptions = document.getElementById("answer-options");
+// User menu toggle
+const userMenu = document.getElementById("user-menu");
+const userBtn = document.getElementById("user-btn");
 
-// Example first question
+userBtn.addEventListener("click", () => {
+    userMenu.classList.toggle("open");
+});
+
+// Ancient Egypt questions (your original ones)
 const questions = [
     {
         question: "Which river was central to Ancient Egyptian civilization?",
-        answers: ["Amazon", "Nile", "Yangtze", "Mississippi"],
-        correct: "Nile"
+        options: ["Nile", "Amazon", "Mississippi", "Yangtze"],
+        answer: "Nile"
     },
     {
-        question: "Who was the sun god in Ancient Egypt?",
-        answers: ["Ra", "Zeus", "Thor", "Osiris"],
-        correct: "Ra"
-    }
+        question: "Who was the boy king of Egypt famous for his tomb?",
+        options: ["Tutankhamun", "Ramses II", "Cleopatra", "Akhenaten"],
+        answer: "Tutankhamun"
+    },
+    {
+        question: "What were the massive tombs built for pharaohs called?",
+        options: ["Pyramids", "Ziggurats", "Temples", "Obelisks"],
+        answer: "Pyramids"
+    },
+    // Add more questions as needed
 ];
 
-let currentQuestion = 0;
+let currentQ = 0;
+const questionText = document.getElementById("question");
+const answerOptions = document.getElementById("answer-options");
+const nextQBtn = document.getElementById("nextQBtn");
 
-// Load a question
-function loadQuestion() {
-    const q = questions[currentQuestion];
-    questionEl.textContent = q.question;
-
-    // Clear previous answers
+function showQuestion() {
+    const q = questions[currentQ];
+    questionText.textContent = q.question;
     answerOptions.innerHTML = "";
-
-    // Add answer buttons
-    q.answers.forEach(ans => {
-        const btn = document.createElement("button");
-        btn.className = "question";
-        btn.textContent = ans;
-        btn.addEventListener("click", () => checkAnswer(ans));
-        answerOptions.appendChild(btn);
+    q.options.forEach(opt => {
+        const div = document.createElement("div");
+        div.className = "question";
+        div.textContent = opt;
+        div.addEventListener("click", () => checkAnswer(opt));
+        answerOptions.appendChild(div);
     });
 }
 
-// Check the answer
 function checkAnswer(selected) {
-    const correct = questions[currentQuestion].correct;
+    const correct = questions[currentQ].answer;
     if (selected === correct) {
-        alert("Correct!");
+        currentQ++;
+        if (currentQ < questions.length) {
+            showQuestion();
+        } else {
+            questionText.textContent = "You’ve completed the Ancient Egypt adventure!";
+            answerOptions.innerHTML = `<button class="returnHome" onclick="window.location.href='../pages/home-page.html'">Return Home</button>`;
+            nextQBtn.style.display = "none";
+        }
     } else {
-        alert(`Wrong! The correct answer is ${correct}.`);
-    }
-
-    // Move to next question
-    currentQuestion++;
-    if (currentQuestion < questions.length) {
-        loadQuestion();
-    } else {
-        questionEl.textContent = "You've completed the Ancient Egypt Adventure!";
-        answerOptions.innerHTML = "";
-        nextBtn.style.display = "none";
+        alert("Incorrect answer! Start again.");
+        // Reset the game
+        currentQ = 0;
+        showQuestion();
     }
 }
 
-// Start button loads the first question
-nextBtn.addEventListener("click", () => {
-    loadQuestion();
+// Start button shows first question
+nextQBtn.addEventListener("click", () => {
+    showQuestion();
+    nextQBtn.style.display = "none";
 });
