@@ -1,5 +1,4 @@
 const db = require('../db/connect');
-const Answer = require('./Answer');
 
 class Question {
     constructor({ id, question_number, question_text, category, points, answers }) {
