@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const logger = require('morgan');
 
-const { questionRouter, leaderboardRouter, answerRouter, authRouter } = require('./routers/histories');
+const { questionRouter, leaderboardRouter, authRouter } = require('./routers/histories');
 
 const app = express();
 
@@ -13,7 +13,6 @@ app.use(cors());
 app.use('/', authRouter);
 app.use('/questions', questionRouter);
 app.use('/leaderboard', leaderboardRouter);
-app.use('/answers', answerRouter);
 
 app.get('/', (req, res) => {
   res.send({

@@ -1,48 +1,91 @@
-const Question = require('../../../models/Question');
-const { resetTestDB } = require('../../integration/config');
+const Question = require('../../../models/Question')
+const db = require('../../../db/connect')
 
-describe('Question Model', () => {
+describe('Question', () => {
+  beforeEach(() => jest.clearAllMocks())
 
-  beforeEach(async () => {
-    await resetTestDB();
-  });
+  afterAll(() => jest.resetAllMocks())
 
-  describe('getByCategoryWithAnswers', () => {
+    describe ('getByCategoryWithAnswers', () => {
+    it('resolves getAll', async () => {
+      // Arrange
 
-    test('should return questions with answers', async () => {
-      const questions = await Question.getByCategoryWithAnswers('Tudor England');
+      const mockQuestions = [
+        { id: 1, question_number: 1, question_text: 'Test question1?', category: 'testcategory', points: 1},
+        { id: 2, question_number: 2, question_text: 'Test question2?', category: 'testcategory', points: 1},
+        { id: 3, question_number: 3, question_text: 'Test question3?', category: 'testcategory', points: 1},
+      ];
 
-      expect(questions.length).toBeGreaterThan(0);
+      jest.spyOn(db, 'query').mockResolvedValueOnce({ rows: mockQuestions });
 
-      const q = questions[0];
+      // Act
+      const questions = await Question.getAll();
 
-      expect(q).toHaveProperty('question_text');
-      expect(q).toHaveProperty('answers');
-      expect(Array.isArray(q.answers)).toBe(true);
+      // Assert
+      expect(questions).toHaveLength(3);
+      expect(questions[0]).toHaveProperty('id');
+      expect(questions[0]).toHaveProperty('question_number');
+      expect(questions[0].question_text).toBe('Test question1?');
+      expect(db.query).toHaveBeenCalledWith("SELECT * FROM question");
     });
 
-    test('should include correct answer (Henry VIII)', async () => {
-      const questions = await Question.getByCategoryWithAnswers('Tudor England');
+    it('resolves with questions and asnswers', async () => {
+      // Arrange
 
-      const q = questions[0];
+    const mockJoinedRows = [
+      { id: 1, question_number: 1, question_text: 'Test question1?', category: 'testcategory', points: 1, answer_id: 1, option_text: 'Answer 1A', correct: true },
+      { id: 1, question_number: 1, question_text: 'Test question1?', category: 'testcategory', points: 1, answer_id: 2, option_text: 'Answer 1B', correct: false },
+      { id: 1, question_number: 1, question_text: 'Test question1?', category: 'testcategory', points: 1, answer_id: 3, option_text: 'Answer 1C', correct: false },
 
-      const hasCorrectAnswer = q.answers.some(
-        a => a.option_text === 'Henry VIII' && a.correct === true
-      );
+      { id: 2, question_number: 2, question_text: 'Test question2?', category: 'testcategory', points: 1, answer_id: 4, option_text: 'Answer 2A', correct: true },
+      { id: 2, question_number: 2, question_text: 'Test question2?', category: 'testcategory', points: 1, answer_id: 5, option_text: 'Answer 2B', correct: false },
+      { id: 2, question_number: 2, question_text: 'Test question2?', category: 'testcategory', points: 1, answer_id: 6, option_text: 'Answer 2C', correct: false },
 
-      expect(hasCorrectAnswer).toBe(true);
+      { id: 3, question_number: 3, question_text: 'Test question3?', category: 'testcategory', points: 1, answer_id: 7, option_text: 'Answer 3A', correct: true },
+      { id: 3, question_number: 3, question_text: 'Test question3?', category: 'testcategory', points: 1, answer_id: 8, option_text: 'Answer 3B', correct: false },
+      { id: 3, question_number: 3, question_text: 'Test question3?', category: 'testcategory', points: 1, answer_id: 9, option_text: 'Answer 3C', correct: false },
+    ];
+
+      jest.spyOn(db, 'query').mockResolvedValueOnce({ rows: mockJoinedRows });
+
+      // Act
+      const questions = await Question.getByCategoryWithAnswers('testcategory');
+
+      console.log(questions, 'debug')
+
+      // Assert
+      expect(questions).toHaveLength(3);
+      expect(questions[0]).toHaveProperty('id');
+      expect(questions[0]).toHaveProperty('question_number');
+      expect(questions[0].question_text).toBe('Test question1?');
+
+      expect(questions[0]).toHaveProperty('answers');
+      expect(questions[0].answers).toHaveLength(3);
+
+      expect(questions[0].answers[0]).toEqual({
+        id: 1,
+        option_text: 'Answer 1A',
+        correct: true
+      })
+expect(db.query).toHaveBeenCalledWith(`
+            SELECT 
+                q.id,
+                q.question_number,
+                q.question_text,
+                q.category,
+                q.points,
+                a.id AS answer_id,
+                a.option_text,
+                a.correct
+            FROM question q
+            LEFT JOIN answer a
+            ON q.question_number = a.question_number
+            WHERE q.category = $1
+            ORDER BY q.question_number;
+        `,
+  ['testcategory']
+);
     });
 
-    test('should return empty array if no answers exist', async () => {
-      // remove answers
-      await require('../../../db/connect').query('DELETE FROM answer');
-
-      const questions = await Question.getByCategoryWithAnswers('WW2');
-
-      expect(Array.isArray(questions)).toBe(true);
-      expect(questions[0].answers).toEqual([]);
-    });
-
-  });
-
-});
+  })
+})

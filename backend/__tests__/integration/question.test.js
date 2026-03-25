@@ -1,86 +1,46 @@
 const request = require('supertest')
 const app = require('../../app')
-const db = require('../../db/connect');
 const { resetTestDB } = require('./config')
-const port = process.env.PORT
 
-describe('Questions API Endpoints', () => {
+describe('Goat API Endpoints', () => {
+  let api
 
   beforeEach(async () => {
-    await resetTestDB();
+    await resetTestDB()
+  }, 30000)
+
+  beforeAll(() => {
+    api = app.listen(4000, () => {
+      console.log('Test server running on port 4000')
+    })
+  })
+
+  afterAll((done) => {
+    console.log('Closing server')
+    api.close(done)
+  })
+
+    describe('GET /', () => {
+    it('responds to GET / with a message and a description', async () => {
+      const response = await request(api).get('/')
+  
+      expect(response.statusCode).toBe(200)
+      expect(response.body.message).toBe('welcome')
+      expect(response.body.description).toBe('History Quiz API')
+    })
   });
 
-  // -----------------------------
-  // Root route
-  // -----------------------------
-  describe('GET /', () => {
-    test('should return API info', async () => {
-      const response = await request(app).get('/');
+  describe('getByCategoryWithAnswers', () => {
+    test('should return questions with answers', async () => {
+      const response = await request(api).get('/questions/home/testcategory')
+      
+      console.log(response.status);
+      console.log(response.body);
+      console.log('debug')
 
-      expect(response.statusCode).toBe(200);
-      expect(response.body.message).toBe('welcome');
-      expect(response.body.description).toBe('History Quiz API');
+      expect(response.status).toBe(200);
+      expect(response.body.data).toBeInstanceOf(Array);
+      expect(response.body.data.length).toBeGreaterThan(0);
     });
   });
-
-  // -----------------------------
-  // Get questions by category
-  // -----------------------------
-  describe('GET /questions/home/Tudor England', () => {
-
-    test('should return all Tudor England questions and answers', async () => {
-      const response = await request(app).get('/questions/home/Tudor England');
-
-      expect(response.statusCode).toBe(200);
-      expect(Array.isArray(response.body)).toBe(true);
-      expect(response.body.length).toBeGreaterThan(0);
-    });
-
-    test('should return correct structure', async () => {
-      const response = await request(app).get('/questions/home/Tudor England');
-
-      const question = response.body[0];
-
-describe('GET /questions/home/Tudor England', () => {
-  test('should return all Tudor England questions and answers', async () => {
-    const response = await request(app).get('/questions/home/Tudor England');
-
-      expect(question.category).toBe('Tudor_England');
-
-      expect(Array.isArray(question.answers)).toBe(true);
-
-  test('should return questions with answers', async () => {
-  const response = await request(app).get('/questions/home/Tudor England');
-
-      expect(answer).toHaveProperty('id');
-      expect(answer).toHaveProperty('option_text');
-      expect(answer).toHaveProperty('correct');
-    });
-
-    test('should include correct answer (Henry VIII)', async () => {
-      const response = await request(app).get('/questions/home/Tudor England');
-
-      const question = response.body[0];
-
-      const hasCorrectAnswer = question.answers.some(
-        a => a.option_text === 'Henry VIII' && a.correct === true
-      );
-
-      expect(hasCorrectAnswer).toBe(true);
-    });
-
-  });
-
-  // -----------------------------
-  // Error handling
-  // -----------------------------
-  describe('GET /questions/home/INVALID_CATEGORY', () => {
-    test('should return 404 for invalid category', async () => {
-      const response = await request(app).get('/questions/home/INVALID_CATEGORY');
-
-      expect(response.statusCode).toBe(404);
-      expect(response.body).toHaveProperty('error');
-    });
-  });
-
 });
