@@ -84,7 +84,7 @@ async function loginUser(username, password) {
     localStorage.setItem('token', result.token);
     localStorage.setItem('username', username);
 
-    window.location.href = 'home-page.html';
+    window.location.href = '/pages/home-page.html';
 }
 
 module.exports = { showError, clearError, showSuccess, clearSuccess, handleSignup, handleLogin, loginUser };
