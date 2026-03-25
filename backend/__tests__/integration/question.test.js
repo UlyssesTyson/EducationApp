@@ -9,7 +9,7 @@ describe('Questions API Endpoints', () => {
   beforeEach(async () => {
     await resetTestDB();
   });
-})
+
 
   // -----------------------------
   // Root route
@@ -77,3 +77,4 @@ describe('GET /questions/home/Tudor England', () => {
       expect(response.body).toHaveProperty('error');
     });
   });
+})
