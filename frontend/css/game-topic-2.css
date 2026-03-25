@@ -7,9 +7,11 @@
 }
 
 body {
-    background-image: url("../assets/ancient-egypt-bg.png");
+    background-image: url("https://cdnb.artstation.com/p/assets/images/images/057/583/035/original/exceptrea-gamerroom-9-ancient-egypt.gif?1672056073");
     background-size: cover;
     background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
     font-family: Georgia, serif;
 }
 
