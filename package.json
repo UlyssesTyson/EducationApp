@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll --coverage --verbose",
+    "test": "jest --coverage --verbose",
     "start": "node backend/index.js",
     "setup-db": "node backend/db/setup.js",
     "dev": "nodemon backend/index.js"
