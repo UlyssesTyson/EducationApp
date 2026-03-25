@@ -10,9 +10,12 @@ const resetSQL = fs.readFileSync(__dirname + '/reset.sql').toString();
 const resetTestDB = async () => {
   try {
     // Initialize a new Pool instance for the test database connection
-    const db = new Pool({
-      connectionString: process.env.DB_TEST_URL,
-    });
+const db = new Pool({
+  connectionString: process.env.DB_TEST_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
 
     // Execute the reset SQL file
     await db.query(resetSQL);
