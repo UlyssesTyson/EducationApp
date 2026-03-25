@@ -4,6 +4,14 @@ const answerOptions = document.getElementById("answer-options");
 
 const content = document.getElementById("content");
 
+//variables for audio effects
+const victoryAudio = document.getElementById("victory-trumpet");
+const loseTrumpet = document.getElementById("lose-trumpet");
+
+//variables to setup the confetti effect
+const canvas = document.getElementById("confetti");
+const jsConfetti = new JSConfetti();
+
 //test api url base will need to change for the real hosted url
 const API_BASE = "http://localhost:3000";
 
@@ -91,7 +99,7 @@ function nextQuestion(e) {
             "beforeend",
             `<p class="question">${answer3.option_text}</p>`,
         );
-    } 
+    }
     //question two and answer options
     else if (questionNum === 2) {
         question.innerHTML = allQuestions[1].question_text;
@@ -108,7 +116,7 @@ function nextQuestion(e) {
             "beforeend",
             `<p class="question">${answer6.option_text}</p>`,
         );
-    } 
+    }
     //question three and answer options
     else if (questionNum === 3) {
         question.innerHTML = allQuestions[2].question_text;
@@ -125,7 +133,7 @@ function nextQuestion(e) {
             "beforeend",
             `<p class="question">${answer9.option_text}</p>`,
         );
-    } 
+    }
     //question four and answer options
     else if (questionNum === 4) {
         question.innerHTML = allQuestions[3].question_text;
@@ -142,7 +150,7 @@ function nextQuestion(e) {
             "beforeend",
             `<p class="question">${answer12.option_text}</p>`,
         );
-    } 
+    }
     //question five and answer options
     else if (questionNum === 5) {
         question.innerHTML = allQuestions[4].question_text;
@@ -168,6 +176,7 @@ function nextQuestion(e) {
 //what happens when a wrong answer is selected. the user will be taken back to the home page
 function wrongAnswer() {
     content.innerHTML = "";
+    loseTrumpet.play();
     content.innerHTML =
         "<p>That was the wrong answer. You did not survuve being married to Henry VIII</p>";
     content.insertAdjacentHTML(
@@ -179,6 +188,7 @@ function wrongAnswer() {
 //what happens if the player get all questions correct
 function allCorrect() {
     content.innerHTML = "";
+    victoryAudio.play();
     content.innerHTML =
         "<p>Congratulations, You managed to outlast Henry VIII!</p>";
     content.insertAdjacentHTML(
@@ -198,6 +208,7 @@ function checkAnswer(e) {
         if (e.target.textContent === correctAnswer) {
             //console.log("Correct answer!!");
             questionNum += 1;
+            jsConfetti.addConfetti();
             nextQuestion();
         }
         //check for wrong answer
@@ -206,15 +217,14 @@ function checkAnswer(e) {
             wrongAnswer();
         }
     }
- 
 }
-   const userBtn = document.getElementById('user-btn');
-userBtn.addEventListener('click', () => {
-    document.getElementById('user-menu').classList.toggle('open');
+const userBtn = document.getElementById("user-btn");
+userBtn.addEventListener("click", () => {
+    document.getElementById("user-menu").classList.toggle("open");
 });
 
-document.addEventListener('click', (e) => {
-    if (!document.getElementById('user-menu').contains(e.target)) {
-        document.getElementById('user-menu').classList.remove('open');
+document.addEventListener("click", (e) => {
+    if (!document.getElementById("user-menu").contains(e.target)) {
+        document.getElementById("user-menu").classList.remove("open");
     }
 });
