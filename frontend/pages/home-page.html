@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=#, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/home-page.css">
     <script src="../js/home-page.js" defer></script>
     <title>Home Page</title>
@@ -11,47 +11,62 @@
 
 <body>
     <div id="heading-text">
-    <span id="welcome-text">Welcome back</span>
-    <div id="user-menu">
-        <button id="user-btn">👤</button>
-        <div id="user-dropdown">
-            <a href="../pages/home-page.html"> Home</a>
-            <a href="../pages/index.html"> Logout</a>
+        <span id="welcome-text">Welcome back</span>
+        <div id="user-menu">
+            <button id="user-btn">👤</button>
+            <div id="user-dropdown">
+                <a href="../pages/home-page.html"> Home</a>
+                <a href="../pages/index.html"> Logout</a>
+            </div>
         </div>
     </div>
-</div>
+
     <div id="page-sections">
+
         <div id="all-game-options">
             <h2>Choose Game</h2>
+
             <div id="game-1" class="game-option">
-                <div class="game-img"><img
-                        src="../assets/henry-pfp.png"
-                        alt=""></div>
+                <span class="hover-badge">
+                    <span class="hover-badge-icon">👑</span>
+                    Enter the Tudor Court
+                </span>
+                <div class="game-img"><img src="../assets/TudorPic.png" alt="Henry VIII"></div>
                 <div class="game-info">
                     <p class="game-title">Henry's New Wife</p>
                     <p class="game-description">Survive Henry VIII’s court by answering history questions correctly!</p>
                 </div>
+                <span class="arrow">›</span>
             </div>
+
             <div id="game-2" class="game-option">
                 <div class="game-img"><img src="https://media.tenor.com/wCtIe30H_zgAAAAd/egypt-ancient.gif" alt=""></div>
                 <div class="game-info">
                     <p class="game-title">Ancient Egypt Adventure</p>
                     <p class="game-description">Test your knowledge of Ancient Egypt — pharaohs, pyramids, and the Nile await!</p>
                 </div>
+                <span class="arrow">›</span>
             </div>
+
             <div id="game-3" class="game-option">
-                <div class="game-img"><img
-                        src="https://images.vexels.com/media/users/3/134792/isolated/preview/11021ac040438214430837e55f4225b7-3d-smile-emoticon-emoji.png"
-                        alt=""></div>
+                <span class="hover-badge">
+                    <span class="hover-badge-icon">🎖️</span>
+                    Report for Duty
+                </span>
+                <div class="game-img"><img src="../assets/SoldierPic.png" alt=""></div>
                 <div class="game-info">
-                    <p class="game-title">Game title</p>
-                    <p class="game-description">description</p>
+                    <p class="game-title">WWII</p>
+                    <p class="game-description">See what life is like on the front lines</p>
                 </div>
+                <span class="arrow">›</span>
             </div>
+
         </div>
+
         <div id="leaderboard">
             <h2>Leaderboards</h2>
         </div>
+
     </div>
 </body>
 
