@@ -7,7 +7,6 @@
 }
 
 body {
-    /* Use a different background for Ancient Egypt */
     background-image: url("../assets/ancient-egypt-bg.png");
     background-size: cover;
     background-attachment: fixed;
@@ -97,6 +96,7 @@ body {
     margin: 16px auto;
 }
 
+/* User menu styling */
 #user-menu {
     position: fixed;
     top: 16px;
