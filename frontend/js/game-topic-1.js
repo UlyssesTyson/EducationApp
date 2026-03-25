@@ -13,7 +13,8 @@ const canvas = document.getElementById("confetti");
 const jsConfetti = new JSConfetti();
 
 //test api url base will need to change for the real hosted url
-const API_BASE = "http://localhost:3000";
+// const API_BASE = "http://localhost:3000";
+const API_BASE = "";
 
 //get all the questions from the db
 let allQuestions;
