@@ -32,7 +32,6 @@ body {
     padding: 28px 36px;
     margin: 60px auto;
     max-width: 860px;
-    width: 90%;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -41,7 +40,7 @@ body {
 #question {
     border-bottom: 1.5px solid var(--light-outline);
     padding-bottom: 16px;
-    font-size: 17px;
+    font-size: 1.5rem;
     line-height: 1.6;
 }
 
@@ -89,6 +88,7 @@ body {
     margin: 0 5% 60px;
     padding: 18px 48px;
     font-size: 22px;
+
 }
 
 .returnHome {

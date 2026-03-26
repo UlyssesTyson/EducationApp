@@ -2,10 +2,9 @@
  * @jest-environment jsdom
  */
 
-
 //This is required to tell jest to ignore the confetti declaration in the js as it crashed the tests
 global.JSConfetti = jest.fn().mockImplementation(() => ({
-  addConfetti: jest.fn()
+    addConfetti: jest.fn(),
 }));
 // ---------------------------------------------------------------------------------------
 
@@ -25,6 +24,9 @@ function setupDOM() {
       </div>
       <button id="nextQBtn" class="enterq">Next</button>
     </section>
+    <audio id="victory-trumpet"></audio>
+    <audio id="lose-trumpet"></audio>
+    <canvas id="confetti"></canvas>
   `;
 }
 
@@ -32,31 +34,35 @@ function setupDOM() {
 function makeMockQuestions() {
     return [
         {
-            question_text: "Q1: Henry VIII had a habit of divorcing his wives. Which powerful institution refused to allow the divorce to his first wife Catherine of Aragon?",
+            question_text:
+                "Q1: Henry VIII had a habit of divorcing his wives. Which powerful institution refused to allow the divorce to his first wife Catherine of Aragon?",
             answers: [
                 { option_text: "The House of Commons" },
-                { option_text: "The Catholic Church" },   // correct (answer2, index 1)
+                { option_text: "The Catholic Church" }, // correct (answer2, index 1)
                 { option_text: "The Royal Navy" },
             ],
         },
         {
-            question_text: "Q2: As Henry's queen, you would live in the royal palace. Which of these was Henry VIII's favourite and most grand palace?",
+            question_text:
+                "Q2: As Henry's queen, you would live in the royal palace. Which of these was Henry VIII's favourite and most grand palace?",
             answers: [
-                { option_text: "Hampton Court Palace" },  // correct (answer4, index 0)
+                { option_text: "Hampton Court Palace" }, // correct (answer4, index 0)
                 { option_text: "Buckingham Palace" },
                 { option_text: "Windsor Castle" },
             ],
         },
         {
-            question_text: "Q3: You learnt quickly that Henry VIII had a terrible temper. How many of his previous wives were executed on his orders?",
+            question_text:
+                "Q3: You learnt quickly that Henry VIII had a terrible temper. How many of his previous wives were executed on his orders?",
             answers: [
                 { option_text: "1" },
-                { option_text: "2" },                     // correct (answer8, index 1)
+                { option_text: "2" }, // correct (answer8, index 1)
                 { option_text: "3" },
             ],
         },
         {
-            question_text: "Q4: Henry VIII made himself the Supreme Head of a new church. What was this church called?",
+            question_text:
+                "Q4: Henry VIII made himself the Supreme Head of a new church. What was this church called?",
             answers: [
                 { option_text: "The Methodist Church" },
                 { option_text: "The Lutheran Church" },
@@ -64,7 +70,8 @@ function makeMockQuestions() {
             ],
         },
         {
-            question_text: "Q5: To clear his debts he closed down monasteries across England. What is this event known as?",
+            question_text:
+                "Q5: To clear his debts he closed down monasteries across England. What is this event known as?",
             answers: [
                 { option_text: "The Great Fire" },
                 { option_text: "The Dissolution of the Monasteries" }, // correct (answer14, index 1)
@@ -87,6 +94,9 @@ beforeEach(() => {
     //sets up the fake DOM
     setupDOM();
     jest.resetModules();
+
+    //mock the audio elements on the HTML page
+    HTMLMediaElement.prototype.play = jest.fn().mockResolvedValue(undefined);
 });
 
 afterEach(() => {
@@ -100,13 +110,12 @@ async function loadModule() {
     await Promise.resolve();
 }
 
-
 describe("Game page loads correctly", () => {
     it("fetch is called with the correct URL on load", async () => {
         await loadModule();
         expect(global.fetch).toHaveBeenCalledTimes(1);
         expect(global.fetch).toHaveBeenCalledWith(
-            "/home/Tudor England",
+            "/questions/home/Tudor England",
         );
     });
 
@@ -116,7 +125,6 @@ describe("Game page loads correctly", () => {
         expect(options.innerHTML.trim()).toBe("");
     });
 });
-
 
 //make sure the questions are loading correctly
 describe("nextQuestion()", () => {
@@ -173,7 +181,7 @@ describe("checkAnswer()", () => {
     //let jest know what answers are correct so it can test both correct and wrong answers
     const correctIndices = [1, 0, 1, 2, 1];
 
-    //function to mock progressing through the game 
+    //function to mock progressing through the game
     async function moveToNextQuestion(targetQuestion) {
         await loadModule();
         document.getElementById("nextQBtn").click();
@@ -218,10 +226,12 @@ describe("checkAnswer()", () => {
         expect(document.getElementById("content").innerHTML).toContain(
             "Congratulations",
         );
+        //expect the win sound to play
+        expect(HTMLMediaElement.prototype.play).toHaveBeenCalled();
     });
 
     it("Home button appears after reaching win screen", async () => {
-        await playUpTo(5);
+        await moveToNextQuestion(5);
         document.querySelectorAll(".question")[correctIndices[4]].click();
         expect(document.querySelector(".returnHome")).not.toBeNull();
     });
@@ -237,6 +247,8 @@ describe("checkAnswer() wrong answer", () => {
         expect(document.getElementById("content").innerHTML).toContain(
             "wrong answer",
         );
+        //test the audio playes
+        expect(HTMLMediaElement.prototype.play).toHaveBeenCalled();
     });
 
     it("Home button appears on the lose screen", async () => {
