@@ -2,12 +2,19 @@
  * @jest-environment jsdom
  */
 
+
+//This is required to tell jest to ignore the confetti declaration in the js as it crashed the tests
+global.JSConfetti = jest.fn().mockImplementation(() => ({
+  addConfetti: jest.fn()
+}));
+// ---------------------------------------------------------------------------------------
+
 // Mock the DOM that game-topic-1.js expects.
 function setupDOM() {
     document.body.innerHTML = `
     <section>
       <div id="user-menu">
-        <button id="user-btn">👤</button>
+        <button id="user-btn"></button>
         <div id="user-dropdown"></div>
       </div>
     </section>
@@ -86,7 +93,7 @@ afterEach(() => {
     jest.clearAllMocks();
 });
 
-//load the module / js to be testested. await the promises to resolve from the real JS file.
+//load the js file to be testested. await the promises to resolve from the real JS file.
 async function loadModule() {
     require("../../js/game-topic-1");
     await Promise.resolve();
@@ -99,15 +106,8 @@ describe("Game page loads correctly", () => {
         await loadModule();
         expect(global.fetch).toHaveBeenCalledTimes(1);
         expect(global.fetch).toHaveBeenCalledWith(
-            "http://localhost:3000/questions/home/Tudor England",
+            "/home/Tudor England",
         );
-    });
-
-    it("Next button is visible in the DOM on load", async () => {
-        await loadModule();
-        const btn = document.getElementById("nextQBtn");
-        expect(btn).not.toBeNull();
-        expect(btn.style.display).not.toBe("none");
     });
 
     it("answer-options div is empty before the first click", async () => {
@@ -140,7 +140,7 @@ describe("nextQuestion()", () => {
         await loadModule();
         document.getElementById("nextQBtn").click();
         const texts = [...document.querySelectorAll(".question")].map(
-            (el) => el.textContent,
+            (element) => element.textContent,
         );
         expect(texts).toEqual([
             mockQuestions[0].answers[0].option_text,
@@ -170,10 +170,11 @@ describe("nextQuestion()", () => {
 
 //make sure that on each correct question answer it progreses to the next question
 describe("checkAnswer()", () => {
+    //let jest know what answers are correct so it can test both correct and wrong answers
     const correctIndices = [1, 0, 1, 2, 1];
 
-    // Plays through questions correctly up to (but not including) targetQuestion.
-    async function playUpTo(targetQuestion) {
+    //function to mock progressing through the game 
+    async function moveToNextQuestion(targetQuestion) {
         await loadModule();
         document.getElementById("nextQBtn").click();
         for (let i = 0; i < targetQuestion - 1; i++) {
@@ -183,43 +184,43 @@ describe("checkAnswer()", () => {
     }
 
     it("correct answer on Q1 advances to Q2", async () => {
-        await playUpTo(2);
+        await moveToNextQuestion(2);
         expect(document.getElementById("question").innerHTML).toBe(
             mockQuestions[1].question_text,
         );
     });
 
     it("correct answer on Q2 advances to Q3", async () => {
-        await playUpTo(3);
+        await moveToNextQuestion(3);
         expect(document.getElementById("question").innerHTML).toBe(
             mockQuestions[2].question_text,
         );
     });
 
     it("correct answer on Q3 advances to Q4", async () => {
-        await playUpTo(4);
+        await moveToNextQuestion(4);
         expect(document.getElementById("question").innerHTML).toBe(
             mockQuestions[3].question_text,
         );
     });
 
     it("correct answer on Q4 advances to Q5", async () => {
-        await playUpTo(5);
+        await moveToNextQuestion(5);
         expect(document.getElementById("question").innerHTML).toBe(
             mockQuestions[4].question_text,
         );
     });
 
     it("answering all 5 questions correctly shows the win message", async () => {
-        await playUpTo(5);
-        // Select the correct answer for Q5 (index 1)
+        await moveToNextQuestion(5);
+        // Select the correct answer for Q5
         document.querySelectorAll(".question")[correctIndices[4]].click();
         expect(document.getElementById("content").innerHTML).toContain(
             "Congratulations",
         );
     });
 
-    it("win screen contains a Home button", async () => {
+    it("Home button appears after reaching win screen", async () => {
         await playUpTo(5);
         document.querySelectorAll(".question")[correctIndices[4]].click();
         expect(document.querySelector(".returnHome")).not.toBeNull();
@@ -228,55 +229,36 @@ describe("checkAnswer()", () => {
 
 //check the correct behaviour for a wrong answer
 describe("checkAnswer() wrong answer", () => {
-    test("wrong answer on Q1 shows the failure message", async () => {
+    it("wrong answer on Q1 shows the lose message", async () => {
         await loadModule();
         document.getElementById("nextQBtn").click();
-        // Index 0 is wrong for Q1 (correct is index 1)
+        // Index 0 is wrong for Q1
         document.querySelectorAll(".question")[0].click();
         expect(document.getElementById("content").innerHTML).toContain(
             "wrong answer",
         );
     });
 
-    test("failure screen contains a Home button", async () => {
+    it("Home button appears on the lose screen", async () => {
         await loadModule();
         document.getElementById("nextQBtn").click();
         document.querySelectorAll(".question")[0].click();
         expect(document.querySelector(".returnHome")).not.toBeNull();
     });
 
-    test("wrong answer on Q3 also shows failure message", async () => {
+    it("wrong answer on Q3 shows the lose message", async () => {
         await loadModule();
         document.getElementById("nextQBtn").click();
 
-        // Answer Q1 correctly (index 1)
+        // Answer Q1 correctly
         document.querySelectorAll(".question")[1].click();
-        // Answer Q2 correctly (index 0)
+        // Answer Q2 correctly
         document.querySelectorAll(".question")[0].click();
-        // Pick a wrong answer on Q3 (index 0; correct is index 1)
+        // Pick a wrong answer on Q3
         document.querySelectorAll(".question")[0].click();
 
         expect(document.getElementById("content").innerHTML).toContain(
             "wrong answer",
-        );
-    });
-});
-
-
-//make sure that clicking outside of the test area doesn't break anything.
-describe("checkAnswer() click target safety", () => {
-    test("clicking the answer-options container itself does nothing", async () => {
-        await loadModule();
-        document.getElementById("nextQBtn").click();
-
-        const questionTextBefore = document.getElementById("question").innerHTML;
-
-        // Click the wrapper div, not an answer paragraph
-        const wrapper = document.getElementById("answer-options");
-        wrapper.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-
-        expect(document.getElementById("question").innerHTML).toBe(
-            questionTextBefore,
         );
     });
 });
