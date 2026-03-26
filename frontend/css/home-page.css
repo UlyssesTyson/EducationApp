@@ -245,64 +245,6 @@ body {
     transform: translateX(4px);
 }
 
-/* ── Leaderboard entries ── */
-.lb-entry {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    border-radius: 10px;
-    padding: 9px 12px;
-    margin-bottom: 8px;
-    background-color: var(--bg-colour);
-    border: 2px solid var(--light-outline);
-}
-
-.lb-entry.first  { border-color: var(--dark-outline); }
-.lb-entry.me     { border-color: var(--dark-colour); background-color: #e8f5eb; }
-
-.lb-divider {
-    height: 1px;
-    margin: 4px 0 10px;
-    background: linear-gradient(90deg, transparent, var(--light-outline), transparent);
-}
-
-.lb-rank {
-    font-family: 'Cinzel', serif;
-    font-size: 13px;
-    font-weight: 700;
-    width: 22px;
-    text-align: center;
-    flex-shrink: 0;
-    color: var(--dark-outline);
-}
-
-.lb-avatar {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    background-color: var(--light-colour);
-    border: 2px solid var(--light-outline);
-    flex-shrink: 0;
-}
-
-.lb-name {
-    font-family: 'Cinzel', serif;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--dark-outline);
-    flex: 1;
-}
-
-.lb-score {
-    font-family: 'Crimson Text', serif;
-    font-size: 13px;
-    font-style: italic;
-    color: var(--dark-colour);
-}
 
 /* ── User menu (original) ── */
 #user-menu {
@@ -348,4 +290,33 @@ body {
 
 #user-menu.open #user-dropdown {
     display: block;
+}
+
+
+/* ── Leaderboard styles ── */
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 2px solid var(--dark-outline);
+  text-align: left;
+  padding: 8px;
+  font-size: 1.3rem;
+}
+
+tr:nth-child(odd) {
+  background-color: var(--light-outline);
+}
+
+th {
+   background-color: var(--dark-colour); 
+   color: var(--bg-colour);
+   font-size: 1.5rem;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
 }
