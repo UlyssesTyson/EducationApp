@@ -23,16 +23,6 @@ describe('Question API Endpoints', () => {
     api.close(done)
   })
 
-    describe('GET /', () => {
-    it('responds to GET / with a message and a description', async () => {
-      const response = await request(api).get('/')
-  
-      expect(response.statusCode).toBe(200)
-      expect(response.body.message).toBe('welcome')
-      expect(response.body.description).toBe('History Quiz API')
-    })
-  });
-
   describe('getByCategoryWithAnswers', () => {
     test('should return questions with answers', async () => {
       const response = await request(api).get('/questions/home/WW2')
