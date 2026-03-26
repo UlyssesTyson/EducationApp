@@ -39,7 +39,7 @@ describe('Integration: full login flow', () => {
 
         expect(localStorage.getItem('token')).toBe('abc123');
         expect(localStorage.getItem('username')).toBe('TestUser');
-        expect(window.location.href).toBe('/pages/home-page.html');
+        expect(window.location.href).toBe('../pages/home-page.html');
     });
 
     test('invalid credentials → error shown → no redirect → nothing in localStorage', async () => {
@@ -72,7 +72,7 @@ describe('Integration: full login flow', () => {
 
         await handleLogin({ preventDefault: jest.fn() });
         expect(localStorage.getItem('token')).toBe('abc123');
-        expect(window.location.href).toBe('/pages/home-page.html');
+        expect(window.location.href).toBe('../pages/home-page.html');
     });
 
     test('signup fails → error shown → login not attempted', async () => {
