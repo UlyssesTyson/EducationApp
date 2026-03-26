@@ -6,24 +6,24 @@ DROP TABLE IF EXISTS leaderboard;
 -- Question Table
 CREATE TABLE question (
     id INT GENERATED ALWAYS AS IDENTITY,
-    question_number INT NOT NULL,
+    question_number INT NOT NULL UNIQUE, -- 👈 make this unique
     question_text VARCHAR(255) NOT NULL,
     category VARCHAR(50) NOT NULL,
     points INT DEFAULT 1,
     PRIMARY KEY (id)
 );
 
--- Answer Table
-CREATE TABLE answer 
+-- Answer Table (FIXED but keeps question_number)
+CREATE TABLE answer (
     id INT GENERATED ALWAYS AS IDENTITY,
-    question_id INT NOT NULL,
+    question_number INT NOT NULL,
     option_text VARCHAR(255) NOT NULL,
     correct BOOLEAN NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (question_id) REFERENCES question(id) ON DELETE CASCADE
+    FOREIGN KEY (question_number) REFERENCES question(question_number) ON DELETE CASCADE
 );
 
--- Account Table =
+-- Account Table
 CREATE TABLE account (
     id INT GENERATED ALWAYS AS IDENTITY,
     username VARCHAR(100) NOT NULL UNIQUE,
@@ -32,13 +32,13 @@ CREATE TABLE account (
     PRIMARY KEY (id)
 );
 
--- Leaderboard Table 
+-- Leaderboard Table (same idea as before)
 CREATE TABLE leaderboard (
     id INT GENERATED ALWAYS AS IDENTITY,
-    account_id INT NOT NULL,
+    username VARCHAR(100) NOT NULL,
     score INT NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (account_id) REFERENCES account(id) ON DELETE CASCADE
+    FOREIGN KEY (username) REFERENCES account(username) ON DELETE CASCADE
 );
 
 -- Insert Questions
