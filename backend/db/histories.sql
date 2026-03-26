@@ -14,29 +14,31 @@ CREATE TABLE question (
 );
 
 -- Answer Table
-CREATE TABLE answer (
+CREATE TABLE answer 
     id INT GENERATED ALWAYS AS IDENTITY,
-    question_number INT NOT NULL,
+    question_id INT NOT NULL,
     option_text VARCHAR(255) NOT NULL,
     correct BOOLEAN NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    FOREIGN KEY (question_id) REFERENCES question(id) ON DELETE CASCADE
 );
 
--- Account Table
+-- Account Table =
 CREATE TABLE account (
     id INT GENERATED ALWAYS AS IDENTITY,
-    username VARCHAR(100) NOT NULL,
+    username VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     type VARCHAR(50) DEFAULT 'student',
     PRIMARY KEY (id)
 );
 
--- Leaderboard Table
+-- Leaderboard Table 
 CREATE TABLE leaderboard (
     id INT GENERATED ALWAYS AS IDENTITY,
-    username VARCHAR(100) NOT NULL,
+    account_id INT NOT NULL,
     score INT NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    FOREIGN KEY (account_id) REFERENCES account(id) ON DELETE CASCADE
 );
 
 -- Insert Questions
