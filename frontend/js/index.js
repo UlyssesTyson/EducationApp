@@ -1,5 +1,5 @@
-const API_BASE = 'http://localhost:3000';
-//const API_BASE = "";
+//const API_BASE = 'http://localhost:3000';
+const API_BASE = "";
 
 
 // Helpers
@@ -84,7 +84,7 @@ async function loginUser(username, password) {
     localStorage.setItem('token', result.token);
     localStorage.setItem('username', username);
 
-    window.location.href = '/pages/home-page.html';
+    window.location.href = '../pages/home-page.html';
 }
 
 module.exports = { showError, clearError, showSuccess, clearSuccess, handleSignup, handleLogin, loginUser };
