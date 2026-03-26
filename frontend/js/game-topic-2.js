@@ -2,6 +2,14 @@
 const userMenu = document.getElementById("user-menu");
 const userBtn = document.getElementById("user-btn");
 
+//variables for audio effects
+const victoryAudio = document.getElementById("victory-trumpet");
+const loseTrumpet = document.getElementById("lose-trumpet");
+
+//variables to setup the confetti effect
+const canvas = document.getElementById("confetti");
+const jsConfetti = new JSConfetti();
+
 userBtn.addEventListener("click", () => {
     userMenu.classList.toggle("open");
 });
@@ -48,16 +56,21 @@ function checkAnswer(selected) {
     const correct = questions[currentQ].answer;
     if (selected === correct) {
         currentQ++;
+        jsConfetti.addConfetti();
         if (currentQ < questions.length) {
             showQuestion();
         } else {
             questionText.textContent = "You’ve completed the Ancient Egypt adventure!";
+            //play win effect
+            victoryAudio.play();
             answerOptions.innerHTML = `<button class="returnHome" onclick="window.location.href='../pages/home-page.html'">Return Home</button>`;
             nextQBtn.style.display = "none";
         }
     } else {
         alert("Incorrect answer! Start again.");
         // Reset the game
+        //play lose effect
+        loseTrumpet.play();
         currentQ = 0;
         showQuestion();
     }
