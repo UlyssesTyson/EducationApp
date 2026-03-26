@@ -71,7 +71,7 @@ describe('loginUser', () => {
 
         expect(localStorage.getItem('token')).toBe('abc123');
         expect(localStorage.getItem('username')).toBe('TestUser');
-        expect(window.location.href).toBe('home-page.html');
+        expect(window.location.href).toBe('/pages/home-page.html');
     });
 
     test('throws if the response is not ok', async () => {
@@ -106,7 +106,7 @@ describe('handleLogin', () => {
 
         await handleLogin(fakeEvent);
 
-        expect(window.location.href).toBe('home-page.html');
+        expect(window.location.href).toBe('/pages/home-page.html');
     });
 
     test('shows an error on failed login', async () => {
