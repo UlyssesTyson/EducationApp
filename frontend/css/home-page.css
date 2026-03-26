@@ -11,7 +11,6 @@ body {
     background-color: var(--bg-colour);
 }
 
-/* ── Header (original + font tweak) ── */
 #heading-text {
     background-color: var(--dark-colour);
     border-bottom: 3px solid var(--dark-outline);
@@ -180,7 +179,6 @@ body {
     transform: translateY(0) scale(1);
 }
 
-/* badge colours per theme */
 #game-1:hover .hover-badge { background-color: #6a1010; border-color: rgba(255,255,255,0.4); color: #fff; }
 #game-1:hover .hover-badge::after { border-top-color: rgba(255,255,255,0.4); }
 #game-2:hover .hover-badge { background-color: #8B6508; border-color: rgba(255,255,255,0.4); color: #fff; }
@@ -188,7 +186,6 @@ body {
 #game-3:hover .hover-badge { background-color: #333f1c; border-color: rgba(255,255,255,0.4); color: #fff; }
 #game-3:hover .hover-badge::after { border-top-color: rgba(255,255,255,0.4); }
 
-/* ── Image: bigger than original 10% ── */
 .game-img {
     width: 72px;
     height: 72px;
@@ -209,7 +206,6 @@ body {
     border-color: var(--bg-colour);
 }
 
-/* ── Game info — bigger text ── */
 .game-info {
     display: flex;
     flex-direction: column;
@@ -293,7 +289,6 @@ body {
 }
 
 
-/* ── Leaderboard styles ── */
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
