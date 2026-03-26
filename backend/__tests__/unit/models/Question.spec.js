@@ -85,7 +85,39 @@ expect(db.query).toHaveBeenCalledWith(`
         `,
   ['testcategory']
 );
-    });
+});
+
+  it('returns empty array when category does not exist', async () => {
+  // Arrange
+  jest.spyOn(db, 'query').mockResolvedValueOnce({ rows: [] });
+
+  // Act
+  const result = await Question.getByCategoryWithAnswers('wrongcategory');
+
+  // Assert
+  expect(result).toEqual([]);
+  expect(result).toHaveLength(0);
+
+  expect(db.query).toHaveBeenCalledWith(
+    `
+            SELECT 
+                q.id,
+                q.question_number,
+                q.question_text,
+                q.category,
+                q.points,
+                a.id AS answer_id,
+                a.option_text,
+                a.correct
+            FROM question q
+            LEFT JOIN answer a
+            ON q.question_number = a.question_number
+            WHERE q.category = $1
+            ORDER BY q.question_number;
+        `,
+    ['wrongcategory']
+  );
+});
 
   })
 })
