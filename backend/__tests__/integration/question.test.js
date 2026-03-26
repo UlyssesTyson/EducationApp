@@ -1,8 +1,11 @@
+require('dotenv').config({ path: '.env.test' });
+
 const request = require('supertest')
 const app = require('../../app')
+const db = require('../../db/connect');
 const { resetTestDB } = require('./config')
 
-describe('Goat API Endpoints', () => {
+describe('Question API Endpoints', () => {
   let api
 
   beforeEach(async () => {
@@ -32,15 +35,17 @@ describe('Goat API Endpoints', () => {
 
   describe('getByCategoryWithAnswers', () => {
     test('should return questions with answers', async () => {
-      const response = await request(api).get('/questions/home/testcategory')
-      
-      console.log(response.status);
-      console.log(response.body);
-      console.log('debug')
-
+      const response = await request(api).get('/questions/home/WW2')
+  
       expect(response.status).toBe(200);
-      expect(response.body.data).toBeInstanceOf(Array);
-      expect(response.body.data.length).toBeGreaterThan(0);
+      expect(response.body).toBeInstanceOf(Array);
+      expect(response.body.length).toBeGreaterThan(0);
+    });
+
+  test('should return 404 for invalid category', async () => {
+  const response = await request(api).get('/questions/home/invalidcategory');
+
+  expect(response.status).toBe(404);
     });
   });
 });
