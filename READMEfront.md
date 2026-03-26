@@ -1,202 +1,99 @@
-# History Game – Frontend
+# Questry — Frontend
 
-> Frontend client for the History Game project, designed to improve student engagement in non-STEM subjects through interactive quizzes and gamification.
-
----
-
-## Overview
-
-This is the **client-side application** for the History Game. It allows users to:
-
-* Register and log in
-* Play history quizzes
-* View scores and leaderboard rankings
-* Track progress through the game
-
-The frontend communicates with a backend API to fetch questions, submit answers, and manage user authentication.
+A history-themed educational quiz game for children. Players choose from a selection of interactive story-based games and answer questions to progress through historical scenarios.
 
 ---
 
-## Tech Stack
+## Installation & Usage
 
-* HTML
-* CSS
-* JavaScript 
-* Fetch API (for backend communication)
-* Jest (for testing)
-* Supabase
+### Installation
 
----
+- Clone or download the repository.
+- Ensure the backend server is running (see backend README).
 
-## Project Structure
+### Usage
 
-```
-frontend/
-├── index.html
-├── /pages
-│   ├── index.html
-│   ├── home-page.html
-│   ├── game-topic-1.html
-│   └── game-topic-2.html
-├── /js
-│   ├── home-page.js
-│   ├── index.js
-│   ├── game-topic-1.js
-│   └── game-topic-2.js
-├── /css
-│   ├── global.css
-│   ├── index.css
-│   ├── game-topic-1.css
-│   └── game-topic-2.css
-│   └── home-page.css
-├── /__tests__
-│   ├── home-page.test.js
-│   ├── index.test.js
-│   ├── game-topic-1.test.js
-│   └── game-topic-2.test.js
-└── 
-```
+- Open `index.html` in your browser, or navigate to the hosted URL.
+- Sign up for an account or log in with existing credentials.
+- From the home page, choose a game to play.
+- Answer questions correctly to progress — one wrong answer and you start again!
 
 ---
 
-## API Integration
+## Process
 
-[THE CURRENT ENDPOINTS ARE PLACEHOLDERS] The frontend communicates with the backend via the following endpoints:
-
-| Method | Endpoint       | Description            |
-| ------ | -------------- | ---------------------- |
-| GET    | `/questions`   | Fetch quiz questions   |
-| POST   | `/login`       | Authenticate user      |
-| POST   | `/register`    | Create new user        |
-| GET    | `/leaderboard` | Fetch leaderboard data |
-| POST   | `/score`       | Submit user score      |
-
----
-
-## Authentication Flow
-
-1. User submits login/register form
-2. Request sent to backend
-3. Backend returns token (or success response)
-4. Token stored in `localStorage`
-5. Token used for protected routes
-
----
-
-## Getting Started
-
-### 1. Clone the repo
-
-```
-git clone <repo-url>
-cd frontend
-```
-
----
-
-### 2. Run locally
-
-Since this is a static frontend:
-
-```
-open index.html
-```
-
-Or use a live server:
-
-```
-
----
-
-### 3. Connect to backend
-
-Ensure backend is running:
-
-```
-http://localhost:3000
-```
-
-Update API base URL in:
+- Started by building the sign-up and login forms with client-side validation and error handling.
+- Connected the auth forms to the backend API using `fetch`, storing the token and username in `localStorage` on successful login.
+- Built the home page to display available games, pulling the username from `localStorage` to show a personalised welcome message.
+- Developed the first game (Henry VIII) using a fetch-based question loader that pulls questions and answers from the backend API.
 
 ```js
-// scripts/app.js
-const BASE_URL = "http://localhost:3000";
+async function getQuestions() {
+    const response = await fetch(`${API_BASE}/questions/home/Tudor England`);
+    allQuestions = await response.json();
+}
 ```
 
----
+- Built the second game (Ancient Egypt) with a locally defined questions array, `showQuestion()` to render options dynamically, and `checkAnswer()` to handle correct/incorrect responses.
 
-## Testing
-
-Run tests using Jest:
-
+```js
+function checkAnswer(selected) {
+    const correct = questions[currentQ].answer;
+    if (selected === correct) {
+        currentQ++;
+        jsConfetti.addConfetti();
+        if (currentQ < questions.length) {
+            showQuestion();
+        } else {
+            questionText.textContent = "You've completed the Ancient Egypt adventure!";
+            victoryAudio.play();
+        }
+    } else {
+        alert("Incorrect answer! Start again.");
+        loseTrumpet.play();
+        currentQ = 0;
+        showQuestion();
+    }
+}
 ```
-npm install
-npm run test
-```
 
-### Test Coverage Includes:
-
-* Authentication logic
-* Redirect behaviour
-* API request handling
+- Added win/lose audio effects and a confetti animation on correct answers.
+- Wrote unit and integration tests using Jest and jsdom to cover auth flows, question rendering, answer checking, and UI interactions.
 
 ---
 
-## Features
+## Screenshots
 
-| Feature        | Description                            | Status      |
-| -------------- | -------------------------------------- | ----------- |
-| Authentication | Login & registration forms             | In Progress |
-| Quiz Gameplay  | Multiple choice questions              | In Progress |
-| Leaderboard    | Displays top scores                    | Not Started |
-| Redirect Logic | Route protection based on login status | In Progress |
+| Login Page | Home Page | Game Page |
+|---|---|---|
+| Sign up & log in forms | Game selection with hover effects | Question & answer interface |
 
 ---
 
-## Known Limitations
+## Wins & Challenges
 
-* No full error handling yet
-* Accessibility improvements needed
-* Leaderboard integration pending
-* Auth currently uses basic token storage (not fully secure)
+### Wins
 
----
+- Clean, consistent styling across all pages using CSS variables defined in `global.css`.
+- Fully tested auth flow covering success, failure, and edge cases.
+- Engaging hover animations on the home page game cards.
 
-## Accessibility (Planned)
+### Challenges
 
-* Improved color contrast
-* Keyboard navigation
-* Screen reader support
-* Optional audio narration
+- Mocking `JSConfetti` in Jest — it is loaded via a CDN script tag in the browser, so it needed to be mocked on `global` before the module was required in tests.
+- Managing async `fetch` calls in tests required careful use of `await Promise.resolve()` to let the module's top-level async functions settle before assertions ran.
 
 ---
 
-## Team Responsibilities
+## Bugs
 
-| Role            | Responsibility                       |
-| --------------- | ------------------------------------ |
-| Frontend Devs   | UI, API integration, user experience |
-| Backend Devs    | API endpoints, authentication, data  |
-| Project Manager | Coordination, documentation, testing |
+- No error handling if the backend is unreachable — the game will silently fail to load questions.
+- Game 3 (WWII) is not yet implemented and shows an alert placeholder.
 
 ---
 
-## Future Improvements
+## Future Features
 
-* Gamification (badges, streaks)
-* Difficulty levels
-* Progress tracking dashboard
-* Mobile responsiveness
-* Animations for engagement
-
----
-
-## Developer Notes
-
-* Keep API calls centralized in `app.js`
-* Avoid hardcoding data — always use API
-* Use consistent naming conventions
-* Test components before integration
-
----
-
+- Add Game 3 (WWII themed quiz).
+- Leaderboard displaying top scores per game.
+- Timer mechanic to add difficulty.
